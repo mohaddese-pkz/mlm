@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--styles-->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'mlm_panel/asset/style/shoping-bag.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'mlm_panel/asset/style/new_style.css' %}"
+    />
+
+    <link rel="stylesheet" href="./asset/style/table-teket.css" />
+
+    <link rel="stylesheet" href="./asset/plugins/fontawesome/css/all.min.css" />
+
+    <!--/styles-->
+    <title>سبد خرید</title>
+  </head>
+
+  <body>
+    <!--header-->
+
+    <!--header-->
+    
+    <div dir="rtl">
+      <h2 class="shopping-bag-title">سبد خرید</h2>
+      <div class="all-factors">
+        <div class="factor">
+          <p class="factor-title">پیش فاکتور</p>
+          <div id="scroll-bar" class="scroll-bar"></div>
+        </div>
+        <div class="short-offer">
+          <div class="short-factor">
+            <p class="factor-title">خلاصه فاکتور</p>
+            <div class="all-kidd-price">
+              <div class="kidd-price">
+                <p class="kidd-price-title">مبلغ کل:</p>
+                <div class="price-detail">
+                  <p>T</p>
+                  <p id="all-price"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="payment-btn">
+        <a href="{% url 'mlm:send_request' %}"> پرداخت سفارش</a>
+      </button>
+    </div>
+    <!-- footer -->
+
+    <!-- footer -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function trashProduct(id, product, count) {
+        $.ajax({
+          url: '/api/mlm/carts/carts-remove/',
+          type: 'post',
+          data: {
+            count,
+            product,
+            id,
+          },
+          headers: { Authorization: 'Token {{ user_token }}' },
+          success: (res) => {
+            console.log(res, 'res');
+            window.location.reload();
+          },
+        });
+      }
+
+      function getdata() {
+        // console.log('lll');
+        $.ajax({
+          url: '{% url "ApiMlm:carts_list" %}',
+          headers: { Authorization: 'Token {{ user_token }}' },
+          success: (res) => {
+            console.log(res, 'res');
+
+            let allPrice = 0;
+            res.results.forEach((item) => {
+              allPrice += item.price * item.count;
+              $('#scroll-bar').append(`
+
+                    <div class="factor-product">
+                            <img class="factor-product-img" src="${
+                              item.product_image
+                            }" alt="">
+                            <div class="factor-product-detail">
+                                <a href="#">${item.title}</a>
+                                <p style="width:auto;margin-right:10px">تعداد : ${
+                                  item.count
+                                }</p>
+                                <button class="trash-cart" onclick="trashProduct(${
+                                  item.id
+                                },${item.product},${item.count})">
+                                    <i class="fa fa-trash"></i>    
+                                </button>
+                            </div>
+
+                            <div class="price-number">
+                                <p class="price-product">${
+                                  item.price * item.count
+                                }</p>
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                `);
+            });
+            $('#all-price').html(allPrice);
+          },
+          error: (err) => {
+            console.log(err, 'err');
+          },
+        });
+      }
+      getdata();
+    </script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>

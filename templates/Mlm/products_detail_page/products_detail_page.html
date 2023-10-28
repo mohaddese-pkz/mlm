@@ -1,0 +1,477 @@
+{% extends 'base/base.html' %} {% load static %} {% block content %}
+
+
+<link rel="stylesheet" href="{% static 'css/products-detail.css' %}">
+
+
+<section id="slider" class="main-box">
+
+    <div class="containerdetails">
+
+        <div style="display: flex;" class="main-box-slider">
+                <div class="mainImg-big" id="mainImg-big">
+                    <div class="carousel-item1 fade" style="opacity: 1; ">
+                       <img class=" slide-imgditils"  src="{{ product.image.url }}" alt="">
+                    </div>
+                    {% if product.image1 %}
+                    <div class="carousel-item1 fade" style="opacity: 1; ">
+                       <img class=" slide-imgditils"  src="{{ product.image1.url }}" alt="">
+                    </div>
+                    {%endif%}
+                      {% if product.image2 %}
+                    <div class="carousel-item1 fade" style="opacity: 1; ">
+                       <img class=" slide-imgditils"  src="{{ product.image2.url }}" alt="">
+                    </div>
+                    {%endif%}
+                    {% if product.image3 %}
+                    <div class="carousel-item1 fade" style="opacity: 1; ">
+                       <img class=" slide-imgditils"  src="{{ product.image3.url }}" alt="">
+                    </div>
+                    {%endif%}
+
+                </div>
+        </div>
+        <div class="all-dot-btnditails" id="all-dot-btnditails">
+
+                <button type="button" class="dot-btndetails slide-activedetails" onclick="currentSlideDetails(1)">
+                  <img class="slidedetails" src="{{ product.image.url }}" alt="">
+                </button>
+
+                {% if product.image1 %}
+                <button type="button" class="dot-btndetails slide-activedetails" onclick="currentSlideDetails(2)">
+                  <img class="slidedetails" src="{{ product.image1.url }}" alt="">
+                </button>
+                {%endif%}
+                {% if product.image2 %}
+                <button type="button" class="dot-btndetails slide-activedetails" onclick="currentSlideDetails(3)">
+                  <img class="slidedetails" src="{{ product.image2.url }}" alt="">
+                </button>
+                {%endif%}
+                {% if product.image3 %}
+                <button type="button" class="dot-btndetails slide-activedetails" onclick="currentSlideDetails(4)">
+                  <img class="slidedetails" src="{{ product.image3.url }}" alt="">
+                </button>
+                {%endif%}
+        </div>
+        </div>
+
+
+    </div>
+    <div class="form-left-box">
+        <ol>
+            <li class="form-item ">
+                <div class="div-style">
+                    <h2 class="form-item-title"> {{ product.title }}</h2>
+                </div>
+
+            </li>
+            <li style="display: flex; width: 100%;">
+                <p class="form-title detail-p-style">
+                    {{ product.descriptions }}
+                </p>
+            </li>
+
+            <li>
+                <div style="direction: ltr;" class="div-style w-100">
+                    <h2 class="sec-price w-100"> {{ product.price }} تومان </h2>
+
+                </div>
+            </li>
+
+            <li class="form-item d-flex justify-content-between align-items-center">
+                <div class="div-style">
+                    <div class="form-item-cout">
+                        <div class="item-count">
+                            <p id="cunt-plus" class="cunt-div">+</p>
+                        </div>
+                        <div class="item-count">
+                            <p id="counter" class="cunt-div">1</p>
+                        </div>
+                        <div class="item-count">
+                            <p id="cunt-min" class="cunt-div">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pro-btn2">
+                    <button id="add-cart" class="form-btn2" type="button">افزودن به سبد خرید</button>
+                </div>
+            </li>
+<!-- 
+            <li>
+
+            </li> -->
+        </ol>
+    </div>
+</section>
+
+<!-- ---------- -->
+
+
+<section class="ttttttttttttttt">
+
+
+    <div class="tabs-main mb-0">
+        <input type="radio" name="tabs-main" id="tabone" checked="checked">
+        <label class="tabs-main-part" for="tabone">
+
+            <div class="tabs-main-res-label">          معرفی
+            </div></label>
+        <div class="tab detailstabcontent">
+            <!-- <h1>معرفی</h1> -->
+            <p>
+                {{ product.descriptions }}
+            </p>
+        </div>
+        <input type="radio" name="tabs-main" id="tabtwo">
+        <label class="tabs-main-part" for="tabtwo">
+            <div class="tabs-main-res-label">جزئیات
+            </div>
+        </label>
+        <div class="tab detailstabcontent ">
+            <div class="detailstabdiv">
+                <p class="detailstabp">حجم</p>
+                <p class="detailstabp">{{ product.volume }}</p>
+            </div>
+            <div class="detailstabdiv">
+                <p class="detailstabp">ترکیبات</p>
+                <p class="detailstabp">{{ product.compounds }}</p>
+            </div>
+            <div class="detailstabdiv">
+                <p class="detailstabp">صادرکننده مجوز</p>
+                <p class="detailstabp"> {{ product.licenseـissuer }} </p>
+            </div>
+
+        </div>
+
+        <input type="radio" name="tabs-main" id="tabfour">
+        <label class="tabs-main-part" for="tabfour">
+          <div class="tabs-main-res-label">          نظرات
+    </div>
+
+    </label>
+        <div class="tab detailstabcontent">
+            <div id="detailstabdiv3" class="detailstabdiv3">
+
+
+            </div>
+            {% if  request.user.is_authenticated %}
+                        <div class="tab-div-m">
+                <h4 style="color: #F26A4F;">ثبت دیدگاه جدید</h4>
+                <p>شما هم درباره این کالا دیدگاه ثبت کنید</p>
+                <div class="form-details">
+
+                    <li class="form-item-details  ">
+                        <div style=" width: 100%;">
+                            <textarea id="form-text" class="form-input-textarea2" placeholder="متن پیام" name="textarea-input" rows="5" cols="50" style="width: 99%;"></textarea>
+                        </div>
+                    </li>
+
+                    <div class="pro-btn22">
+                        <button onclick="sendData()" class="form-btn w-100" type="button">ارسال نظر</button>
+                    </div>
+
+                </div>
+            </div>
+            {% else %}
+                <div class="tab-div-m">
+                <h4 style="color: #F26A4F;">ثبت دیدگاه جدید</h4>
+                <p>برای ثبت دیدگاه ابتدا وارد حساب کاربری خود شوید</p>
+                <div class="form-details">
+
+
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+<div id="snackbar" class=""></div>
+
+    <div class="product-slider mb-5">
+        <h1 class="title1 fs-5">محصولات مشابه</h1>
+        <section class="product">
+            <div class="nxt-btn" onclick="plusslides1(1)">
+                <div class="nxt-btn-img"></div>
+            </div>
+
+            <div class="p1-page d-block">
+                <div id="product-container-id" class="row d-flex gap-0 g-3">
+
+                    {% for p in similars %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <a href="{% url 'mlmurls:products_detail_page' p.id p.slug %}" class="product-item-image-container mb-3">
+                            <img class="image product-item-image rounded" src="{{ p.image.url }}" alt="{{ p.title }}">
+                        </a>
+                        <div class="details h-auto">
+
+                            <a href="#" class="fs-6 mb-1 d-block">
+                                <h2>{{ p.title }}</h2>
+                            </a>
+
+                            <div class="product-text text-danger">{{ p.price }} تومان </div>
+
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script>
+var slideIndexDetails = 1;
+
+function currentSlideDetails(slideIndexDetails) {
+    showSlidersDetails(slideIndexDetails);
+}
+
+function showSlidersDetails(slideIndexDetails) {
+
+    let slidesDetails = document.getElementsByClassName("carousel-item1");
+    let dotsBtnDetails = document.getElementsByClassName("dot-btndetails");
+    if (slideIndexDetails >= 1 && slideIndexDetails <= slidesDetails.length) {
+        for (let i = 0; i < slidesDetails.length; i++) {
+            slidesDetails[i].style.display = "none";
+        }
+        for (let i = 0; i < dotsBtnDetails.length; i++) {
+            dotsBtnDetails[i].classList.remove("slide-activedetails");
+        }
+        slidesDetails[slideIndexDetails - 1].style.display = "block";
+        dotsBtnDetails[slideIndexDetails - 1].classList.add("slide-activedetails");
+    }
+}
+showSlidersDetails(1)
+    function message(type, msg) {
+        var succ = type
+        var messageText = msg
+        var snackbar = document.getElementById('snackbar')
+
+        if (succ == "sucsses") {
+            snackbar.innerText = messageText
+            snackbar.className += " sucsses"
+            setTimeout(function() {
+                snackbar.innerText = " "
+                snackbar.classList.remove("sucsses")
+            }, 3000);
+        }
+
+        if (succ == "error") {
+            snackbar.innerText = msg
+            snackbar.className += " error"
+            setTimeout(function() {
+                snackbar.innerText = " "
+                snackbar.classList.remove("error")
+            }, 3000);
+        }
+
+    }
+    var count = 1
+    var minLengh = 1
+    var limitLengh = {{product.limit}}
+
+    $('#cunt-plus').click(function() {
+
+
+        if (count <= limitLengh) {
+            document.getElementById('counter').innerHTML = ++count
+        } else {
+            alert('این تعداد محصول موجود نیست')
+        }
+    })
+    $('#cunt-min').click(function() {
+        if (count > 0) {
+            document.getElementById('counter').innerHTML = --count
+        } else {
+            alert('عدد وارد شده معتبر نیست')
+        }
+    })
+
+    //===========================slider=========================
+    // ==========================DETAILS_TAB==================
+
+    var detailstabLinks = document.querySelectorAll(".detailstablinks");
+    var detailstabContent = document.querySelectorAll(".detailstabcontent");
+
+
+    detailstabLinks.forEach(function(el) {
+        el.addEventListener("click", detailsopenTabs);
+    });
+
+
+    function detailsopenTabs(el) {
+        var detailsbtnTarget = el.currentTarget;
+        var detailsvaluetxt = detailsbtnTarget.dataset.valuetxt;
+
+        detailstabContent.forEach(function(el) {
+            el.classList.remove("detailsactive");
+        });
+
+        detailstabLinks.forEach(function(el) {
+            el.classList.remove("detailsactive");
+        });
+
+        document.querySelector("#" + detailsvaluetxt).classList.add("detailsactive");
+
+        detailsbtnTarget.classList.add("detailsactive");
+    }
+
+
+    // ==========================DETAILS_TAB==================
+
+    // ==========================COUNTER=====================
+    var count = 1
+    var limitLengh = 5
+    var minLengh = 0;
+
+    function getdataNext(nextUrl) {
+        $.ajax({
+            url: nextUrl,
+            success: (res) => {
+
+
+                res.results.forEach(item => {
+
+                $('#detailstabdiv3').append(`
+                    <div class="detailstabdiv22">
+                        <p>${item.user_fullname} </p>
+                        <p class="j-date-details">${item.jdate}  </p>
+                    </div>
+                    <p class="detailstabdiv22-p textNazaret"> ${item.comment}  </p>
+                `)
+                })
+                if (res.next) {
+                    let nextUrl = res.next
+                    getdataNext(nextUrl);
+                }
+
+            },
+            error: (err) => {
+            console.log('err list coment',err)
+
+            }
+        })
+    }
+
+    function getdata() {
+        $.ajax({
+            url:'{% url "ApiMlm:products_comments_list" %}?id={{ product.id  }}',
+            success: (res) => {
+
+                console.log(res);
+                res.results.forEach(item => {
+
+                $('#detailstabdiv3').append(`
+                    <div class="detailstabdiv22">
+                        <p>${item.user_fullname} </p>
+                        <p class="j-date-details">${item.jdate}  </p>
+                    </div>
+                    <p class="detailstabdiv22-p textNazaret"> ${item.comment}  </p>
+                 `)
+                })
+                if (res.next) {
+                    let nextUrl = res.next
+                    getdataNext(nextUrl);
+                }
+       
+            },
+            error: (err) => {
+
+
+            }
+        })
+    }
+
+    getdata()
+
+    $('#add-cart').click(function() {
+
+        var priceP =document.getElementById('counter').innerHTML
+
+        $.ajax({
+            url: '/api/mlm/carts/carts-add/',
+            type: 'post',
+            headers: {
+                'Authorization': 'Token {{ user_token }}'
+            },
+            data: {
+                count:priceP,
+                product: {{product.id}}
+
+            },
+            success: (res) => {
+                            console.log('res list adddd',res)
+
+
+
+
+                {% if request.user.is_authenticated %}
+                //   window.location.href = "/mlm/carts/"
+                message('sucsses', 'اضافه شد')
+                {% else %}
+                    message('error', 'خطا لطفا وارد حساب کاربری خود شوید ')
+                {% endif %}
+            },
+            error: (err) => {
+            console.log('err list adddd',err)
+
+
+                    message('error', ' خطا لطفا وارد حساب کاربری خود شوید ')
+
+
+
+
+
+            }
+        })
+    })
+
+    function sendData() {
+
+        let txt = $("#form-text").val()
+
+        $.ajax({
+            url: "{% url 'ApiMlm:products_comments_add' %}",
+            type: "post",
+            headers: {
+                'Authorization': 'Token {{ user_token }}'
+            },
+            data: {
+                user: {{request.user.id}},
+                product: {{product.id}},
+                comment: txt,
+            },
+            success: (res) => {
+
+                if (txt == '') {
+                    message('error', 'متن پیام را وارد کنید')
+                    return
+                } else if (res.message == 'کاربر قبلا برای این محصول دیدگاه ثبت کرده است') {
+                    message('error', 'کاربر قبلا برای این محصول دیدگاه ثبت کرده است')
+
+
+                }
+            },
+            error: (err) => {
+
+                message('error', 'ارسال نشد')
+
+
+            }
+
+        })
+    }
+    // =================================== send ======================
+</script>
+
+
+    {% endblock %}

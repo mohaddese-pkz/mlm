@@ -1,0 +1,3167 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static 'Derakhti/js/tr/Treant.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'mlm/asset/style/arian-panel.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'mlm/asset/css/derakhti-panel.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="{% static 'mlm_panel/asset/style/user_panel_style.css' %}"
+    />
+
+    <script src="{% static 'mlm/js/tr/vendor/raphael.js' %}"></script>
+    <script src="{% static 'mlm/js/tr/Treant.js' %}"></script>
+    <title></title>
+  </head>
+
+  <body dir="rtl" onload="SelectPanel(1)">
+    <div class="main-content-userpanel">
+      <div class="panel">
+        <div class="panels-details" onclick="SelectPanel(1)">
+          <div class="edit-prof-icon tab-icon"></div>
+          <p class="tab-text-derakhti">داشبورد کاربری</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(2)">
+          <div class="base-info-icon tab-icon"></div>
+          <p class="tab-text-derakhti">اطلاعات پایه و ویرایش</p>
+        </div>
+        <div class="panels-details" id="hesab-panel" onclick="SelectPanel(3)">
+          <div class="information-acc-icon tab-icon"></div>
+          <p class="tab-text-derakhti">اطلاعات حساب</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(4)">
+          <div class="tree-advance-icon tab-icon"></div>
+          <p class="tab-text-derakhti">درختواره پیشرفته</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(5)">
+          <div class="contract-icon tab-icon"></div>
+          <p class="tab-text-derakhti">قرارداد فی ما بین</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(6)">
+          <div class="contract-icon tab-icon"></div>
+          <p class="tab-text-derakhti">پشتیبانی</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(7)">
+          <div class="order-icon tab-icon"></div>
+          <p class="tab-text-derakhti">سفارشات من</p>
+        </div>
+        <div class="panels-details" id="emtiyaz-panel" onclick="SelectPanel(8)">
+          <div class="point-icon tab-icon"></div>
+          <p class="tab-text-derakhti">انتخاب امتیاز</p>
+        </div>
+        <div class="panels-details" id="jaiigah-panel" onclick="SelectPanel(9)">
+          <div class="position-icon tab-icon"></div>
+          <p class="tab-text-derakhti">ثبت جایگاه</p>
+        </div>
+        <div class="panels-details">
+          <a href="/" class="link-tab-icon">
+            <div class="dasti-shop-icon tab-icon"></div
+          ></a>
+          <a
+            class="tab-text-derakhti Aclass"
+            href="/"
+            style="
+              text-decoration: none;
+              line-height: 75px;
+              width: 60%;
+              font-size: 20px;
+              line-height: 37px;
+            "
+            >فروشگاه صنایع دستی</a
+          >
+        </div>
+        <div class="panels-details">
+          <a href="{% url 'account:logout_page' %}" class="link-tab-icon">
+            <div class="exit-icon tab-icon"></div
+          ></a>
+          <a
+            class="tab-text-derakhti Aclass"
+            href="{% url 'account:logout_page' %}"
+            style="
+              text-decoration: none;
+              line-height: 75px;
+              width: 60%;
+              font-size: 20px;
+            "
+            >خروج</a
+          >
+        </div>
+      </div>
+
+      <div class="panel-details">
+        <div
+          id="edit-acount"
+          class="user-panel-tab panel-page"
+          style="display: block"
+        >
+          <div class="introduced-code" style="height: auto !important">
+            <div class="profile-icon1 profile-tab-icon"></div>
+            <div class="code-introducted-all">
+              <p class="text-of-panel text-of-introduced">
+                کد شما برای معرفی :
+              </p>
+              <p class="text-of-panel" id="user-id">
+                {{ user.identifierـcode }}
+              </p>
+            </div>
+            <div class="copy-icon1 profile-tab-icon" onclick="copyId()"></div>
+          </div>
+          <div class="profile-line-two">
+            <div class="profile-line-two-one">
+              <div class="tiket-active-icon1 profile-tab-icon"></div>
+              <div class="profile-line-two-one-all-text">
+                <p class="text-of-panel">حساب کاربری :</p>
+                <p class="text-of-panel" id="acc-on">غیر فعال</p>
+              </div>
+              <div class="question-icon1 profile-tab-icon"></div>
+            </div>
+            <div class="profile-line-two-two">
+              <div class="network-icon1 profile-tab-icon"></div>
+              <div class="profile-line-two-two-all-text">
+                <p class="text-of-panel">میزان پورسانت :</p>
+                <p class="text-of-panel" id="porsant-packet">
+                  {{ user.commission }}
+                </p>
+              </div>
+            </div>
+            <div class="profile-line-two-three">
+              <div class="money-icon1 profile-tab-icon"></div>
+              <div class="profile-line-two-three-all-text">
+                <p class="text-of-panel">میزان وچر :</p>
+                <p class="text-of-panel" id="voucher-packet">
+                  {{ user.benـkala }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-line-three">
+            <div class="reward-box">
+              <!-- <button class="variz-btn" id="variz-btn">درخواست واریز</button> -->
+              <button class="btn-primary" id="variz-btn">درخواست واریز</button>
+            </div>
+          </div>
+        </div>
+        <div id="edit-acount" class="user-panel-tab panel-page">
+          <p class="title-of-panel-one">اطلاعات پایه و ویرایش</p>
+          <div class="edit-list-box">
+            <div class="edit-list-box-allPart">
+              <div class="edit-list-box-partOne">
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">نام</p>
+                  <input id="Name2" type="text" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">نام خانوادگی</p>
+                  <input id="Lname2" type="text" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">نام کاربری</p>
+                  <input id="accName" type="text" />
+                </div>
+
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">استان</p>
+                  <input id="Ostan" type="text" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">شهر</p>
+                  <input id="City" type="text" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">موبایل اول</p>
+                  <input id="Mobile1" type="number" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">نام پدر</p>
+                  <input id="fatherN" type="text" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">موبایل دوم</p>
+                  <input id="mobile2" type="number" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">تاریخ تولد</p>
+                  <input id="Bdate" type="date" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">آدرس</p>
+                  <input id="address" type="text" />
+                </div>
+              </div>
+              <!-- <button class="save-info-edit-list-box" id="save-information">ذخیره اطلاعات</button> -->
+              <button class="btn-primary" id="save-information">
+                ذخیره اطلاعات
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="order-history" class="order-history panel-page">
+          <div class="top-info-acc">
+            <p class="info-acc-title">تکمیل اطلاعات حساب</p>
+          </div>
+          <div class="mid-info-acc">
+            <div class="mid-info-acc-all">
+              <div class="right-part-info-acc">
+                <div class="line-one-info-acc">
+                  <div class="input-in-editBox">
+                    <p class="text-of-panel">نام</p>
+                    <input id="first-name" type="text" />
+                  </div>
+                  <div class="input-in-editBox">
+                    <p class="text-of-panel">نام خانوادگی</p>
+                    <input id="last-name1" type="text" />
+                  </div>
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">شماره کارت</p>
+                  <input id="acc-number" type="number" />
+                </div>
+                <div class="input-in-editBox">
+                  <p class="text-of-panel">شماره شبا</p>
+                  <input id="sheba-number" type="number" />
+                </div>
+              </div>
+              <div class="bank-cart bank-on">
+                <div class="bank-name">
+                  <p>کارت</p>
+                  <p id="bank-id1"></p>
+                </div>
+                <div class="bank-info-one">
+                  <p>کارت به نام :</p>
+                  <p id="name-cart"></p>
+                </div>
+                <div class="bank-info-one">
+                  <p>شماره حساب :</p>
+                  <p id="acc-num-cart"></p>
+                </div>
+                <div class="bank-info-one" id="shaba-cart">
+                  <p>IR</p>
+                </div>
+              </div>
+            </div>
+            <!-- <button class="save-info-edit-list-box fix-edit-acc-btn" id="save-info-acc-number">ذخیره اطلاعات</button> -->
+            <button class="btn-primary" id="save-info-acc-number">
+              ذخیره اطلاعات
+            </button>
+          </div>
+          <div class="bank-cart bank-off">
+            <div class="bank-name">
+              <p>کارت</p>
+              <p id="bank-id12"></p>
+            </div>
+            <div class="bank-info-one">
+              <p>کارت به نام :</p>
+              <p id="name-cart1"></p>
+            </div>
+            <div class="bank-info-one">
+              <p>شماره حساب :</p>
+              <p id="acc-num-cart1"></p>
+            </div>
+            <div class="bank-info-one" id="shaba-cart1">
+              <p>IR</p>
+            </div>
+          </div>
+        </div>
+        <div id="comments" class="comments panel-page">
+          <div class="top-tree-advanced">
+            <p class="title-tree-advanced">انتخاب نود جاری</p>
+            <select name="node-advance-tree" id="node-part">
+              <option value="arian">arian</option>
+            </select>
+          </div>
+          <div class="number-place-box">
+            <div class="number-of-place">
+              <p>تعداد جایگاه فعال سمت راست :</p>
+              <p id="active-right">0</p>
+            </div>
+            <div class="number-of-place">
+              <p>تعداد جایگاه فعال سمت چپ :</p>
+              <p id="active-left">0</p>
+            </div>
+            <div class="number-of-place">
+              <p>تعداد جایگاه رزرو سمت چپ :</p>
+              <p id="reserve-left">0</p>
+            </div>
+            <div class="number-of-place">
+              <p>تعداد جایگاه رزرو سمت راست :</p>
+              <p id="reserve-right">0</p>
+            </div>
+          </div>
+        </div>
+        <div id="comments" class="comments panel-page">
+          <div class="tik-checkbox-contract">
+            <div class="taEEd-contract">
+              <input
+                type="checkbox"
+                class="role-input"
+                id="checked-box-contract"
+              />
+              <label for="checked-box-contract">
+                اینجانب تمامی قوانین رو مطالعه کرده و آن را قبول دارم</label
+              >
+            </div>
+            <!-- <button class="save-edit-contract" id="save-change-contract">ذخیره تغییرات</button> -->
+            <button class="btn-primary" id="save-change-contract">
+              ذخیره تغییرات
+            </button>
+          </div>
+          <div class="verification-data-contract">
+            <p>تاریخ تایید شما :</p>
+            <p class="date-contract" id="date-contract"></p>
+          </div>
+          <div class="main-contract">
+            <p class="sub-contract">
+              <strong class="bolden">
+                طرح درآمدی شرکت پیشگامان میراث جاویدان</strong
+              >
+            </p>
+            <p class="intoduction-contract">مقدمه</p>
+            <p class="text-contract">
+              هدف اصلی شرکت کمک به پیشرفت هنر دست و صنایع دستی کشور می باشد تا
+              بتوانیم در زمینه تولید، توزیع و صادرات گامی بلند برداریم و زمینه
+              اشتغالزایی افراد زیادی را فراهم نماییم.
+            </p>
+            <p class="text-contract">
+              افرادی که به عضویت این شرکت در می آیند می توانند در اکثر نقاط
+              ایران و جهان با مراجعه به میز کار خود که به صورت کامالً رایگان می
+              باشد اقدام به خرید، فروش و بازاریابی محصوالت نمایند
+            </p>
+            <p class="text-contract">
+              هر یک از افراد باید در ابتدا اساسنامه و طرح درآمدی شرکت را مطالعه
+              نمایند و بعد از آن اقدام به خرید و فروش و بازاریابی شرکت در طرح
+              درآمدی نمایند، افراد ملزم به رعایت تمامی بندها و قوانین شرکت
+              میباشد
+            </p>
+            <p class="text-contract">
+              افراد میتوانند تا مدت زمانی که شرکت دایر باشد با فعالیت در شرکت از
+              حجم فروش پاداش دریافت کنند. افراد می توانند با خرید اعتباری و رزرو
+              کاالهای مد نظر خود به عنوان بازاریاب فعالیت خود را شروع کنند. هر
+              شخص میتواند با یک بار خرید از سایت شرکت فعالیت خود را آغاز کند و
+              بعد از آن خرید های مجدد شخص از تخفیف ۰۴ درصدی برخوردار است
+            </p>
+            <p class="text-contract">
+              کلیه محصوالت و بستههای کاالیی روی سایت با چهار قیمت ۴۴۴/۴۴۴/22
+              ریال، ۴۴۴/۴۴۴/۰۰ریال، ۴۴۴/۴۴۴/66 ریال و ۴۴۴/۴۴۴/45۰ ریال ارائه می
+              شود.
+            </p>
+            <p class="text-contract">
+              افراد با خرید و شروع فعالیت در طرح درآمدی می توانند در خارج از
+              کشور همزمان فعالیت کنند )پلن یورویی( چرا که برای افراد در فروش
+              خارجی هم کاال رزرو می شود تا بتوانند خارج از ایران هم فعالیت کنند
+              و پاداش یورویی دریافت کنند. همینطور افرادی که خرید یورویی انجام می
+              دهند هم در همان لحظه خرید ریالی آنها فعال می شود و می توانند
+              همزمان در پلن ریالی هم فعالیت کرده و پاداش دریافت کنند.
+            </p>
+            <p class="intoduction-contract">طرح درآمدی شرکت</p>
+            <p class="text-contract">
+              همه افراد میتوانند به صورت اعتباری و رزرو کردن کاال فعالیت خود را
+              در طرح درآمدی آغاز کنند اما تا زمانی که خرید افراد تکمیل نشود،
+              محصولی برای آنها ارسال نمی شود و پاداشی در قبال خرید دیگران دریافت
+              نمی کنند.
+            </p>
+            <p class="text-contract">
+              طبق آیین نامه تبصره ماده ۷۸ از حجم فروش ایجاد شده فقط تا ۸ سطح
+              )نسل( برای شما به عنوان بازاریاب ۷ درصد کل مبلغ فروشتان پاداش در
+              نظر گرفته می شود و بعد از آن به خاطر حجم فروش ایجاد شده در صورتی
+              که فعال باشید و رتبه های تعیین شده توسط آیین نامه را رعایت کنید،
+              پاداش به شما تعلق میگیرد این درآمد برای هر جایگاه تجاری
+              ۴۴۴/۴۴۴/52۷ ریال معادل ۴۴۴/۷۴۴/52 تومان می باشد، در داخل کشور و
+              پلن ریالی با احتساب وچر ها،
+            </p>
+            <p class="text-contract">
+              <mark> رتبه ها: </mark>
+              4 -استارتر 2 -مجاب کننده )حامی( 3 -پرزنتور ۰ -پیرزنتور ارشد 5
+              -ترینر 6 -دایرکتور ۸ -دایرکتور ارشد ۷ -لیدر 9 -لیدر حامی 4۴ -لیدر
+              ارشد 44 تاپ لیدر 42 -ارنر 43 -تاپ ارنر 4۰ -تاپ ارنر ارشد 45 -سفیر
+              با توجه، به طرح درآمدزایی شرکت از درآمد هفتگی افراد 4۴ درصد کسر
+              میشود. درآمدها باالی 3 میلیون تومان در هفته
+            </p>
+            <p class="text-contract">
+              با توجه، به طرح درآمدزایی شرکت از درآمد هفتگی افراد 4۴ درصد کسر
+              میشود. درآمدها باالی 3 میلیون تومان در هفته
+            </p>
+            <p class="text-contract">
+              در هر سطح از فروش ایجاد شده ۷ درصد کل مبلغ فروش به عنوان پاداش به
+              بازاریاب تعلق می گیرد و تا ۸ سطح هم الیههای فروش گسترش می یابد و
+              در بهترین حالت مبلغ 56 درصد از حجم فروش را شامل میشود و بیشتر از ۸
+              سطح پاداش قابل پرداخت نیست چرا که باید با ۰۰ درصد باقیمانده
+              محصوالت و خدمات تولید و هزینه های دیگر را پوشش دهد.
+            </p>
+            <p class="text-contract">
+              با توجه به خرید مشتریان، هر خرید در یک سطح محاسبه می گردد مثال اگر
+              مشتری خرید یک امتیازی کند همان یک امتیاز کاال برای شما یک سطح
+              محاسبه می شود، اگر خرید 2 امتیازی انجام دهد همان 2 امتیاز کاال
+              برای شما یک سطح محاسبه میشود، اگر مشتری خرید 3 امتیازی داشته باشد
+              همان خرید 3 امتیازی کاال برای شما یک سطح محاسبه می شود و چنانچه
+              مشتری خرید ۸ امتیازی انجام دهد همان خرید ۸ امتیازی کاال برای شما
+              یک سطح محاسبه می گردد.
+            </p>
+
+            <p class="text-contract">
+              هر شخص می تواند تا 4۴ درصد از مبلغ خرید خودش را در صورتیکه یک طرفه
+              هم رشد کند دریافت کند این پاداش در سه سطح قابل پرداخت است
+            </p>
+
+            <p class="text-contract">
+              پاداش یک طرفه در صورت متعادل کردن امتیازات و دریافت پاداش تعادل از
+              دریافتی افراد کم می شود. گرفتن این پاداش اختیاری است و افرادی که
+              این پاداش را دریافت میکنند نمیتوانند کاالهای خود را مرجوع کنند.
+            </p>
+
+            <p class="text-contract">
+              <mark>استرداد کاال:</mark>
+              مشتری یک تا دو هفته فرصت دارد که خرید خود را فسخ نماید، هفته کاری
+              شرکت از ابتدای روز دوشنبه )2۰ بامداد( تا آخرین ساعت روز یکشنبه بعد
+              می باشد.
+            </p>
+            <p class="text-contract">
+              اگر شخص همان روز اول هفته کاری یعنی دوشنبه خرید بزند دو هفته فرصت
+              لغو سفارش را دارد و اگر همان شخص روز آخر یعنی یکشنبه خرید بزند یک
+              هفته دیگر فرصت لغو سفارش دارد.
+            </p>
+
+            <p class="text-contract">
+              پس افراد از هفته ای که خرید می کنند و یک هفته بعد از آن فرصت
+              درخواست استرداد وجه را دارند. شخصی که خرید خود را لغو کند تا دو
+              ماه نمی تواند خرید مجدد داشته باشد.
+            </p>
+
+            <p class="text-contract">
+              اگر شخصی بعد از مهلت یک تا دو هفته ای اقدام به لغو خرید کند هزینه
+              های بازاریابی، انبارداری، ارسال و دیگر هزینه ها کسر شده و در صورتی
+              که کاال سالم باشد و بدون خط و خش بازخرید می شود.
+            </p>
+
+            <p class="text-contract">
+              افرادی که در شرکت فعالیت می کنند در صورتی که بعد از گذشت ده ما
+              نتوانند به درآمد برسند دو ماه مهلت دارند که کاالی خریداری شده را
+              در صورتی که سالم باشد به شرکت عودت دهند و مبلغ خرید خود را دریافت
+              کنند. بعد از گذشت دو ماه این امکان وجود ندارد.چراکه از نظر شرکت
+              خرید قطعی شده است.
+            </p>
+            <mark> جزئیات طرح پاداش دهی </mark>
+
+            <table>
+              <tr>
+                <th>ردیف</th>
+                <th>حجم فروش کالا</th>
+                <th>مبلغ پاداش (ریال)</th>
+              </tr>
+              <tbody id="money-table"></tbody>
+              <tr>
+                <td></td>
+                <td>
+                  <p>مبلغ کل</p>
+                </td>
+                <td>0/800/00 ریال با احتساب وچر</td>
+              </tr>
+            </table>
+            <p class="text-contract">
+              کلیه پاداش ها بعد از هفته سوم پرداخت میشود یعنی 24 روز چرا که یک
+              تا دو هفته فرصت لغو وجود دارد محاسبات پاداش روز دوشنبه شروع و روز
+              یکشنبه پایان می یابد.
+            </p>
+            <p class="text-contract">
+              شرکت در نظر دارد برای اینکه فرصت کافی به افراد داده شود که بتوانند
+              از شرکت درآمدزایی داشته باشند پتانسیل فروش افراد را به مدت پنج سال
+              ذخیره نگه دارد از تاریخ ورود افراد تا افراد فرصت کافی داشته باشند
+              که تعادل در فروش در بازو های چپ و راست خود ایجاد کرده و به درآمد
+              برسند.
+            </p>
+            <p class="text-contract">
+              جایگاه تجاری افراد غیر قابل انتقال است، نهایت هم به وراث افراد
+              تعلق میگیرد.
+            </p>
+            <p class="text-contract">
+              خریدهای مجدد افراد قابل استرداد نمی باشند چرا که شامل تخفیف ۰۴
+              درصدی می باشد به خاطر قانون استرداد کاال از پاداشی که به
+              بازاریابان تعلق میگیرد مبلغ 4۴ درصد نزد شرکت می ماند تا در صورتی
+              که عودت کاال مربوط به آن بازاریاب باشد، مبلغ عودت داده شده از آن
+              مشتری کسر گردد و چون افراد یک سال فرصت دارند برای استرداد کاال بعد
+              از آن مبالغ باقیمانده به حساب افراد واریز می شود. طبق قانون ۸ سطح
+              یا نسل قبل از فردی که استرداد کاال داشته موظف به بازپرداخت مبلغ 4۴
+              درصد می باشند، بازاریابان مبالغ کسر شده را در دفتر کار خود مشاهده
+              می کنند این مهم به خاطر حمایت بیشتر از افراد جدید است.
+            </p>
+            <mark>مالیات و بسته بندی:</mark>
+            <p class="text-contract">
+              4 )برای همه مبالغ فروش کاال مالیات ارزش افزوده و دیگر موارد
+              مالیاتی به فاکتور خرید اضافه می شود، این مبالغ طبق تعرفه هر 3 ماه
+              یکبار به حساب اداره مالیات واریز می گردد
+            </p>
+            <p class="text-contract">
+              2 )هزینه بسته بندی و ارسال در هنگام خرید از مشتری مسترد می گردد.
+            </p>
+            <p class="text-contract">
+              3 )بازاریابانی که دریافت پاداش آنها ده میلیارد ریال در یک سال
+              برسد، موظف هستند مفاصا حساب مالیاتی خود را به شرکت اعالم کنند.
+            </p>
+            <p class="text-contract">
+              <mark>
+                » در پایان آرزوی موفقیت برای همه بازاریابان و هنرمندان کشور
+                عزیزمان ایران را داریم «
+              </mark>
+            </p>
+          </div>
+        </div>
+        <div id="edit-acount" class="user-panel-tab panel-page">
+          <div class="teket-div">
+            <h2>سیستم پشتیبانی</h2>
+            <p class="teket-p">موضوع تیکت</p>
+            <input
+              id="title-tiket"
+              class="input"
+              type="text"
+              name=""
+              id=""
+              placeholder="موضوع تیکت را وارد کنید "
+            />
+            <p class="teket-p">پیام</p>
+            <textarea
+              id="text-tiket"
+              class="textarea-input"
+              type="password"
+              name=""
+              id=""
+              placeholder=" متن پیام را وارد کنید"
+            ></textarea>
+            <div class="form-div">
+              <div class="form-box">
+                <input id="teket-file2" type="file" name="" id="" />
+                <button id="send-ticket" type="submit" class="send-teket">
+                  ارسال تیکت
+                </button>
+              </div>
+            </div>
+
+            <div class="teket-table">
+              <h2 class="h2-teket color-teket">پشتیبانی</h2>
+
+              <table id="teket-tabel">
+                <tr>
+                  <th>تاریخ</th>
+                  <th>عنوان</th>
+                  <th>وضعیت تیکت</th>
+                </tr>
+              </table>
+
+              <!-- <div class="main-div"></div> -->
+              <div id="parent-div">
+                <div class="top-page">
+                  <button id="close-iconn" class="upload-inp">
+                    <div class="close-icon"></div>
+                  </button>
+                  <div class="top-page-box">
+                    <div class="teket-header-div">
+                      <p class="color-teket">موضوع</p>
+                      <p id="t-h-p1" class="teket-header-content">
+                        پیگیری محصول
+                      </p>
+                    </div>
+                    <div class="teket-header-div">
+                      <p class="color-teket">تیکت</p>
+                      <p id="t-h-p2" class="teket-header-content">
+                        پیگیری محصول
+                      </p>
+                    </div>
+                  </div>
+                  <div class="top-page-box">
+                    <div class="teket-header-div">
+                      <p class="color-teket">وضعیت</p>
+                      <p id="t-h-p3" class="teket-header-content">
+                        پیگیری محصول
+                      </p>
+                    </div>
+                    <div class="teket-header-div">
+                      <p class="color-teket">زمان</p>
+                      <p id="t-h-p4" class="teket-header-content">
+                        پیگیری محصول
+                      </p>
+                    </div>
+                    <!--<div class="teket-header-div">-->
+                    <!--    <p class="color-teket"> بروزرسانی</p>-->
+                    <!--    <p id="t-h-p5" class="teket-header-content"> </p>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+                <div id="main-div" class="main-div">
+                  <div id="chat-box" class="chat-box"></div>
+                </div>
+
+                <div class="send-text">
+                  <input
+                    class="send-text-inp"
+                    type="text"
+                    name=""
+                    id="tekek-txt"
+                    placeholder="متن پیام را وارد کنید"
+                  />
+                  <div class="upload-inp">
+                    <input type="file" id="add-teket-file" hidden />
+                    <label for="add-teket-file">
+                      <div class="link-icon"></div>
+                    </label>
+                  </div>
+                  <button id="send-message" class="upload-inp">
+                    <div class="send-icon"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-page clientele-page">
+          <div class="seller-account-title">
+            <p>لیست سفارش محصول</p>
+          </div>
+          <div class="list-products-header"></div>
+          <div class="all-forosh-tablet" id="all-forosh-tablet"></div>
+          <div class="all-forosh" id="all-forosh">
+            <div class="top-table">
+              <div>
+                <p>تصویر</p>
+              </div>
+              <div>
+                <p>نام</p>
+              </div>
+              <div>
+                <p>قیمت</p>
+              </div>
+              <div>
+                <p>دفعات خرید</p>
+              </div>
+              <div>
+                <p>ویرایش</p>
+              </div>
+            </div>
+          </div>
+          <div class="page-slider">
+            <div class="page-number" dir="ltr">
+              <span id="page1" class="page1 page"></span>
+              <span id="page2" class="page2 page"></span>
+              <span id="page3" class="page2 page"></span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-page clientele-page save-point">
+          <div class="all-pelans">
+            <div class="all-pelans-part1">
+              <div class="pelan" onclick="pointSelector(1)">
+                <div class="pelan1-icon"></div>
+                <div class="stars">
+                  <div class="rate" dir="ltr">
+                    <i class="fa fa-star"></i>
+                  </div>
+                </div>
+                <button class="pelan-btn">انتخاب در پلن یک امتیازی</button>
+                <div class="all-price">
+                  <div class="pelan-price">مبلغ : 10,500,000</div>
+                  <div class="tik-price-icon"></div>
+                </div>
+              </div>
+              <div class="pelan" onclick="pointSelector(2)">
+                <div class="pelan2-icon"></div>
+                <div class="stars">
+                  <div class="rate" dir="ltr">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </div>
+                </div>
+                <button class="pelan-btn">انتخاب در پلن دو امتیازی</button>
+                <div class="all-price">
+                  <div class="pelan-price">مبلغ : 21,000,000</div>
+                  <div class="tik-price-icon"></div>
+                </div>
+              </div>
+              <div class="pelan" onclick="pointSelector(3)">
+                <div class="pelan3-icon"></div>
+                <div class="stars">
+                  <div class="rate" dir="ltr">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </div>
+                </div>
+                <button class="pelan-btn">انتخاب در پلن سه امتیازی</button>
+                <div class="all-price">
+                  <div class="pelan-price">مبلغ : 31,500,000</div>
+                  <div class="tik-price-icon"></div>
+                </div>
+              </div>
+            </div>
+            <div class="all-pelans-part2">
+              <div class="pelan pelan-four" onclick="pointSelector(7)">
+                <div class="pelan4-icon"></div>
+                <div class="stars">
+                  <div class="rate" dir="ltr">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </div>
+                </div>
+                <button class="pelan-btn">انتخاب در پلن هفت امتیازی</button>
+                <div class="all-price">
+                  <div class="pelan-price">مبلغ : 73,500,000</div>
+                  <div class="tik-price-icon"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="rating-text">
+            تعداد امتیاز به منظور تعداد جایگاه درآمدزایی هست که شما می توانید
+            داشته باشید.
+          </p>
+          <p class="sugg-text">
+            پیشنهاد ما به شما انتخاب پلن سه ستاره می باشد.
+          </p>
+        </div>
+        <div class="panel-page clientele-page save-place">
+          <div class="register-place-box">
+            <div class="mid-register-place-box">
+              <div class="level-one">
+                <div class="level-one-details">
+                  <div class="reagent-code">
+                    <p class="reagent-code-title">کد معرف</p>
+                    <input
+                      type="text"
+                      class="reagent-code-input"
+                      id="reagent-code-input"
+                      placeholder="کد معرف"
+                    />
+                  </div>
+                  <!-- <button class="moaref-one-btn" id="moaref-one-btn-un">ثبت کد</button> -->
+                  <button class="btn-primary" id="moaref-one-btn-un">
+                    ثبت کد
+                  </button>
+                  <div class="reagent-info-all">
+                    <p class="reagent-info-title"><b> اطلاعات معرف :</b></p>
+
+                    <div class="mobile-info">
+                      <p class="text-register-info">نام کاربری :</p>
+                      <p class="text-register-info" id="name-moAref"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="level-two">
+                <p class="level-two-title">انتخاب سرگروه</p>
+                <div class="parent-gp">
+                  <p class="parent-detail" id="name-moAref2"></p>
+                  <p class="parent-detail" id="name-moAref-left"></p>
+                  <p class="parent-detail" id="name-moAref-right"></p>
+                </div>
+              </div>
+              <div class="level-three">
+                <p class="level-two-title"><b>انتخاب جایگاه</b></p>
+                <input
+                  type="text"
+                  class="top-parent"
+                  name=""
+                  id="main-moarefi-user"
+                  value=""
+                />
+                <div class="parent-inp">
+                  <input type="text" id="right-side" value="جایگاه راست" />
+                  <input type="text" id="left-side" value="جایکاه چپ" />
+                </div>
+                <div class="place-one">
+                  <input
+                    type="radio"
+                    name="parent"
+                    id="parent "
+                    value="false"
+                  />
+                  <label for="parent " class="check-place-all"
+                    >انتخاب جایگاه چپ</label
+                  >
+                </div>
+                <div class="place-two">
+                  <input
+                    type="radio"
+                    name="parent"
+                    id="parent1 "
+                    value="true"
+                  />
+                  <label for="parent1 " class="check-place-all"
+                    >انتخاب جایگاه راست</label
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- <button class="pv-level" id="pvlevel">ثبت</button> -->
+            <button class="btn-primary" id="pvlevel">ثبت</button>
+          </div>
+        </div>
+        <div
+          class="chart"
+          id="custom-colored"
+          dir="ltr"
+          style="width: 90%; overflow: auto"
+        ></div>
+        <div id="snackbar" class=""></div>
+      </div>
+    </div>
+
+    <style>
+      /* required LIB STYLES */
+      /* .Treant is automatically added to each chart container */
+
+      .Treant {
+        position: relative;
+        overflow: hidden;
+        padding: 0 !important;
+      }
+
+      .Treant > .node,
+      .Treant > .pseudo {
+        position: absolute;
+        display: block;
+        visibility: hidden;
+      }
+
+      .Treant.loaded .node,
+      .Treant.loaded .pseudo {
+        visibility: visible;
+      }
+
+      .Treant > .pseudo {
+        width: 0;
+        height: 0;
+        border: none;
+        padding: 0;
+      }
+
+      .Treant .collapse-switch {
+        width: 3px;
+        height: 3px;
+        display: block;
+        border: 1px solid black;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        cursor: pointer;
+      }
+
+      .Treant .collapsed .collapse-switch {
+        background-color: #868dee;
+      }
+
+      .Treant > .node img {
+        border: none;
+        float: left;
+      }
+      /* custom container style */
+
+      .chart {
+        height: 650px;
+        margin: 5px;
+        width: 1060px;
+      }
+
+      .Treant > .node {
+        text-align: center;
+      }
+
+      .Treant > p {
+        font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light',
+          'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      .node-title {
+        font-weight: bold;
+      }
+
+      .nodeExample1 {
+        padding: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+        background-color: #ffffff;
+        border: 1px solid #000;
+        width: 120px;
+        font-family: sans-serif;
+        font-size: 12px;
+      }
+
+      .nodeExample1 img {
+        margin-right: 10px;
+      }
+
+      a.node.nodeExample1 {
+        text-decoration: none;
+      }
+
+      .gray {
+        background-color: #cecece;
+      }
+
+      .light-gray {
+        background-color: #e1e1e1;
+        border-radius: 20px;
+      }
+
+      .light-grays {
+        background-color: #4fff6c;
+        border-radius: 20px;
+      }
+
+      .light-grayss {
+        background-color: #ffd700;
+        border-radius: 20px;
+      }
+
+      .light-graysss {
+        background-color: purple;
+        border-radius: 20px;
+      }
+
+      .blue {
+        background-color: #8bccea;
+      }
+
+      a {
+        color: #333;
+      }
+    </style>
+
+    <script>
+      var panelpage = 1;
+
+      function SelectPanel(n) {
+        panel((panelpage = n));
+      }
+
+      function panel(n) {
+        var i;
+        var page = document.getElementsByClassName('panel-page');
+        var StyPanel = document.getElementsByClassName('panels-details');
+        var treantChart = document.getElementById('custom-colored');
+        if (n > page.length) {
+          panelpage = 1;
+        }
+        if (n < 1) {
+          panelpage = page.length;
+        }
+        for (i = 0; i < page.length; i++) {
+          page[i].style.display = 'none';
+        }
+        for (i = 0; i < StyPanel.length; i++) {
+          StyPanel[i].classList.remove('border');
+        }
+        if (n == 4) {
+          treantChart.style.display = 'block';
+        } else {
+          treantChart.style.display = 'none';
+        }
+        page[panelpage - 1].style.display = 'block';
+        StyPanel[panelpage - 1].classList.add('border');
+      }
+
+      function message(type, msg) {
+        var succ = type;
+        var messageText = msg;
+        var snackbar = document.getElementById('snackbar');
+
+        if (succ == 'sucsses') {
+          snackbar.innerText = messageText;
+          snackbar.className += ' sucsses';
+          setTimeout(function () {
+            snackbar.innerText = ' ';
+            snackbar.classList.remove('sucsses');
+          }, 3000);
+        }
+
+        if (succ == 'error') {
+          snackbar.innerText = msg;
+          snackbar.className += ' error';
+          setTimeout(function () {
+            snackbar.innerText = ' ';
+            snackbar.classList.remove('error');
+          }, 3000);
+        }
+      }
+
+      function bank_data(number) {
+        let data = {
+          627961: 'بانک صنعت و معدن',
+          610433: 'بانک ملت',
+          589463: 'بانک رفاه کارگران',
+          628023: ' بانک مسکن',
+          589210: 'بانک سپه',
+          603770: ' بانک کشاورزی',
+          603799: 'بانک ملی',
+          627353: 'بانک تجارت',
+          603769: ' بانک صادرات',
+          627648: 'بانک توسعه صادرات',
+          627760: 'پست بانک',
+          936450: ' بانک مرکزی',
+          628157: 'موسسه اعتباری توسعه',
+          621986: 'بانک سامان',
+          627488: 'بانک کارآفرین',
+          622106: 'بانک پارسیان',
+          627412: 'بانک اقتصاد نوین',
+          639347: 'بانک پاسارگاد',
+          502229: 'بانک پاسارگاد',
+          639607: 'بانک سرمایه',
+          639346: 'بانک سینا',
+          606737: 'موسسه مالی و اعتباری مهر',
+          502806: 'بانک شهر',
+          502908: 'بانک توسعه تعاون',
+          636214: 'بانک تات',
+          502938: 'بانک دی',
+          627381: 'بانک انصار',
+        };
+        return data[number];
+      }
+
+      function bankSmart(number = 0) {
+        let result = number.toString().substring(0, 6);
+        return bank_data(result);
+      }
+
+      $('#save-info-acc-number').click(function () {
+        let Name1 = $('#first-name').val();
+        let Bigname1 = $('#last-name1').val();
+        let AccNumber = $('#acc-number').val();
+        let ShebaNumber = $('#sheba-number').val();
+
+        $.ajax({
+          url: '{% url "ApiDerakhti:cards_add" %}',
+          type: 'post',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          data: {
+            first_name: Name1,
+            last_name: Bigname1,
+            accountـnumber: AccNumber,
+            shaba_number: ShebaNumber,
+          },
+          success: (res) => {
+            if (
+              (Name1 == '' &&
+                AccNumber == '' &&
+                ShebaNumber == '' &&
+                Bigname1 == '') ||
+              Name1 == '' ||
+              AccNumber == '' ||
+              ShebaNumber == '' ||
+              Bigname1 == ''
+            ) {
+              message('error', 'پرکردن فیلد ها اجباری است');
+              return;
+            } else {
+              message('sucsses', res.message);
+              $('#name-cart').html(Name1);
+              $('#acc-num-cart').html(AccNumber);
+              $('#shaba-cart').html(`<p> IR ${ShebaNumber}</p>`);
+            }
+
+            var bankNameOne = bankSmart(AccNumber);
+            $('#bank-id1').html(bankNameOne);
+          },
+          error: (err) => {
+            if (err.responseJSON.message == ' از قبل اضافه شده') {
+              message('error', err.responseJSON.message);
+            }
+          },
+        });
+      });
+
+      $('#save-change-contract').click(function () {
+        let Name1 = document.getElementById('checked-box-contract');
+        let valueName = Name1.val;
+        if (Name1.checked == false) {
+          message(
+            'error',
+            'خطا برای تاید حساب کاربری باید قرارداد فی مابین را تایید کنید'
+          );
+        }
+        if (Name1.checked == true) {
+          $.ajax({
+            url: '{% url "ApiDerakhti:contracts_add" %}',
+            type: 'post',
+            headers: {
+              Authorization: 'Token {{ user_token }}',
+            },
+            data: {
+              first_name: valueName,
+            },
+            success: (res) => {
+              $('#date-contract').html(res.created);
+            },
+            error: (err) => {
+              if (err.responseJSON.message == 'قرار داد از قبل تایید شده') {
+                message('error', err.responseJSON.message);
+              }
+            },
+          });
+        }
+      });
+      $('#save-information').click(function () {
+        let Name2 = $('#Name2').val();
+        let Bigname2 = $('#Lname2').val();
+        let accountName = $('#accName').val();
+        let Ostan = $('#Ostan').val();
+        let City = $('#City').val();
+        let Mobile1 = $('#Mobile1').val();
+        let FatherN = $('#fatherN').val();
+        let Mobile2 = $('#mobile2').val();
+        let Bdate = $('#Bdate').val();
+        let address = $('#address').val();
+        $.ajax({
+          url: '{% url "ApiDerakhti:profile_update" %}',
+          type: 'put',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          data: {
+            first_name: Name2,
+            last_name: Bigname2,
+            accountـnumber: accountName,
+            mobile1: Mobile1,
+            mobile2: Mobile2,
+            father_name: FatherN,
+            city: Ostan,
+            country: City,
+            dateـofـbirth: Bdate,
+            address: address,
+          },
+          success: (res) => {
+            if (
+              (Name2 == '' && Bigname2 == '' && accountName == '') ||
+              Name2 == '' ||
+              Bigname2 == '' ||
+              accountName == ''
+            ) {
+              message('error', 'پرکردن این فیلد ها اجباری است');
+              return;
+            } else {
+              message('sucsses', res.message);
+            }
+          },
+          error: (err) => {},
+        });
+      });
+
+      function activeS() {
+        $.ajax({
+          url: '{% url "ApiDerakhti:check_accses" %}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            if (res.message == 'حساب کاربر فعال است') {
+              $('#identifierـcode-one').append(
+                ` <p class="text-of-panel">{{ identifierـcode }}</p>`
+              );
+              $('#acc-on').html('فعال');
+              $('#hesab-panel').on('click', function () {
+                SelectPanel(3);
+              });
+
+              $('#jaiigah-panel').on('click', function () {
+                SelectPanel(8);
+              });
+              $.ajax({
+                url: '{% url "ApiDerakhti:user_info" %}',
+                type: 'get',
+                headers: {
+                  Authorization: 'Token {{ user_token }}',
+                },
+
+                success: (res) => {
+                  $('#name-cart').html(
+                    ' ' + res.info.first_name + ' ' + res.info.last_name
+                  );
+                  $('#acc-num-cart').html(res.info.accountـnumber);
+                  $('#shaba-cart').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#name-cart1').html(res.info.number);
+                  $('#acc-num-cart1').html(res.info.accountـnumber);
+                  $('#shaba-cart1').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#bank-id12').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                  $('#bank-id1').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                },
+                error: (err) => {},
+              });
+            }
+            if (res.message == 'حساب کاربر فعال شد') {
+              $('#acc-on').html('فعال');
+              $('#hesab-panel').on('click', function () {
+                SelectPanel(3);
+              });
+
+              $('#jaiigah-panel').on('click', function () {
+                SelectPanel(8);
+              });
+              $.ajax({
+                url: '{% url "ApiDerakhti:user_info" %}',
+                type: 'get',
+                headers: {
+                  Authorization: 'Token {{ user_token }}',
+                },
+
+                success: (res) => {
+                  console.log('rest', res);
+                  $('#name-cart').html(
+                    ' ' + res.info.first_name + ' ' + res.info.last_name
+                  );
+                  $('#acc-num-cart').html(res.info.accountـnumber);
+                  $('#shaba-cart').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#name-cart1').html(res.info.number);
+                  $('#acc-num-cart1').html(res.info.accountـnumber);
+                  $('#shaba-cart1').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#bank-id12').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                  $('#bank-id1').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                  $('#voucher-packet').html(res.info.vocher);
+                  $('#porsant-packet').html(res.info.porsant);
+                },
+                error: (err) => {},
+              });
+            }
+          },
+          error: (err) => {
+            if (
+              err.responseJSON.message == 'خطا قرار داد فی ما برو تایید کنید'
+            ) {
+              message('error', err.responseJSON.message);
+            }
+            if (
+              err.responseJSON.message == 'خطا  اطلاعات حساب را اضافه  کنید'
+            ) {
+              message('error', err.responseJSON.message);
+              $('#hesab-panel').on('click', function () {
+                SelectPanel(3);
+              });
+            }
+            if (
+              err.responseJSON.message == 'خطا  امتیاز خود  را انتخاب  کنید'
+            ) {
+              message('error', err.responseJSON.message);
+              $('#hesab-panel').on('click', function () {
+                SelectPanel(3);
+              });
+              $('#emtiyaz-panel').on('click', function () {
+                SelectPanel(7);
+              });
+            }
+            if (err.responseJSON.message == 'خطا  جایگاه خود را انتخاب  کنید') {
+              message('error', err.responseJSON.message);
+              $('#hesab-panel').on('click', function () {
+                SelectPanel(3);
+              });
+              $('#emtiyaz-panel').on('click', function () {
+                SelectPanel(7);
+              });
+              $('#jaiigah-panel').on('click', function () {
+                SelectPanel(8);
+              });
+            }
+
+            if (
+              err.responseJSON.message !==
+                'خطا قرار داد فی ما برو تایید کنید' &&
+              err.responseJSON.message !== 'خطا  اطلاعات حساب را اضافه  کنید'
+            ) {
+              $.ajax({
+                url: '{% url "ApiDerakhti:user_info" %}',
+                type: 'get',
+                headers: {
+                  Authorization: 'Token {{ user_token }}',
+                },
+
+                success: (res) => {
+                  $('#name-cart').html(
+                    ' ' + res.info.first_name + ' ' + res.info.last_name
+                  );
+                  $('#acc-num-cart').html(res.info.accountـnumber);
+                  $('#shaba-cart').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#name-cart1').html(res.info.number);
+                  $('#acc-num-cart1').html(res.info.accountـnumber);
+                  $('#shaba-cart1').html(`<p> IR ${res.info.shaba_number}</p>`);
+                  $('#bank-id12').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                  $('#bank-id1').html(
+                    '  ' + bankSmart(res.info.accountـnumber)
+                  );
+                },
+                error: (err) => {},
+              });
+            }
+          },
+        });
+        $.ajax({
+          url: '{% url "ApiDerakhti:place_active_right_number" %}?id={{ request.user.id }}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            $('#active-right').html(res.number);
+          },
+          error: (err) => {},
+        });
+        $.ajax({
+          url: '{% url "ApiDerakhti:place_active_left_number" %}?id={{ request.user.id }}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            $('#active-left').html(res.number);
+          },
+          error: (err) => {},
+        });
+        $.ajax({
+          url: '{% url "ApiDerakhti:place_reservation_right_number" %}?id={{ request.user.id }}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            $('#reserve-right').html(res.number);
+          },
+          error: (err) => {},
+        });
+        $.ajax({
+          url: '{% url "ApiDerakhti:place_reservation_left_number" %}?id={{ request.user.id }}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            console.log(res, 'left res');
+            $('#reserve-left').html(res.number);
+          },
+          error: (err) => {},
+        });
+        $.ajax({
+          url: '{% url "ApiDerakhti:orders_list" %}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            var newResultOrder = [];
+            newResultOrder.push(res.results);
+            $('#all-forosh-tablet').html('');
+            $('#all-forosh').html('');
+            newResultOrder[0].forEach((element) => {
+              $('#all-forosh-tablet').append(`
+                        <div class="forosh-card">
+                        <div class="fc fc-r1">
+                            <p class="fc-text1">نام </p>
+                            <p class="fc-text2">${element.title}</p>
+                        </div>
+                        <div class="fc fc-r2">
+                            <p class="fc-text1">کد </p>
+                            <p class="fc-text2">${element.id}</p>
+                        </div>
+                        <div class="fc fc-r3">
+                            <p class="fc-text1">قیمت</p>
+                            <p class="fc-text2">${element.price}</p>
+                        </div>
+                        <div class="fc fc-r4">
+                            <p class="fc-text1">تاریخ</p>
+                            <p class="fc-text2">${element.payment_date}</p>
+                        </div>
+                        <div class="fc fc-r5">
+                            <p class="fc-text1">دفعات خرید</p>
+                            <p class="fc-text2">${element.product}</p>
+                        </div>
+                        <div class="fc fc-r6">
+                            <div class="trash-forosh-icon" ></div>
+                            <div class="edit-forosh-icon"></div>
+                        </div>
+                    </div>
+                        `);
+              $('#all-forosh').append(`
+                        <div class="mid-table-cli">
+                        <div class="mid-table-img">
+                            <img src="${element.product_image}" alt="">
+                        </div>
+                        <div>
+                            <p>${element.title}</p>
+                        </div>
+                        <div>
+                            <p>${element.price}</p>
+                        </div>
+                        <div>
+                            <p>${element.product}</p>
+                        </div>
+                        <div>
+                            <div class="trash-forosh-icon" data-product="${element.product}"></div>
+                        </div>
+                    </div>
+                        `);
+            });
+          },
+          error: (err) => {},
+        });
+      }
+      activeS();
+      function listSefaresh(listSefareshURL) {
+        $.ajax({
+          url: listSefareshURL,
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            var newResultOrder = [];
+            newResultOrder.push(res.results);
+            $('#all-forosh-tablet').html('');
+            $('#all-forosh').html('');
+            newResultOrder[0].forEach((element) => {
+              $('#all-forosh-tablet').append(`
+                        <div class="forosh-card">
+                        <div class="fc fc-r1">
+                            <p class="fc-text1">نام </p>
+                            <p class="fc-text2">${element.title}</p>
+                        </div>
+                        <div class="fc fc-r2">
+                            <p class="fc-text1">کد </p>
+                            <p class="fc-text2">${element.id}</p>
+                        </div>
+                        <div class="fc fc-r3">
+                            <p class="fc-text1">قیمت</p>
+                            <p class="fc-text2">${element.price}</p>
+                        </div>
+                        <div class="fc fc-r4">
+                            <p class="fc-text1">تاریخ</p>
+                            <p class="fc-text2">${element.payment_date}</p>
+                        </div>
+                        <div class="fc fc-r5">
+                            <p class="fc-text1">دفعات خرید</p>
+                            <p class="fc-text2">${element.product}</p>
+                        </div>
+                        <div class="fc fc-r6">
+                            <div class="trash-forosh-icon" ></div>
+                            <div class="edit-forosh-icon"></div>
+                        </div>
+                    </div>
+                        `);
+              $('#all-forosh').append(`
+                        <div class="mid-table-cli">
+                        <div class="mid-table-img">
+                            <img src="${element.product_image}" alt="">
+                        </div>
+                        <div>
+                            <p>${element.title}</p>
+                        </div>
+                        <div>
+                            <p>${element.price}</p>
+                        </div>
+                        <div>
+                            <p>${element.product}</p>
+                        </div>
+                        <div>
+                            <div class="trash-forosh-icon" data-product="${element.product}"></div>
+                        </div>
+                    </div>
+                        `);
+            });
+            if (res.previous == null && res.next == null) {
+              $('#page1').html(``);
+              $('#page2').html('1');
+              $('#page3').html(``);
+            }
+            if (res.previous == null && res.next !== null) {
+              nextUrl = res.next;
+              $('#page1').html(``);
+              $('#page2').html('1');
+              $('#page3').html('2');
+            }
+            if (res.previous !== null && res.next !== null) {
+              nextUrl = res.next;
+              backUrl = res.previous;
+              let nUrls = new URL(res.next);
+              let nUrlNums = nUrls.searchParams.get('page');
+              let currentpages = Number(nUrlNums) - 1;
+              let prevPageNums = Number(nUrlNums) - 2;
+              $('#page1').html(`${prevPageNums}`);
+              $('#page2').html(`${currentpages}`);
+              $('#page3').html(`${nUrlNums}`);
+            }
+            if (res.previous !== null && res.next == null) {
+              if (res.previous == '{% url "ApiDerakhti:orders_list" %}') {
+                backUrl = res.previous;
+                $('#page1').html(`1`);
+                $('#page2').html('2');
+                $('#page3').html('');
+              }
+              if (res.previous !== '{% url "ApiDerakhti:orders_list" %}') {
+                backUrl = res.previous;
+                let nUrlss = new URL(res.previous);
+                let nUrlNumss = nUrlss.searchParams.get('page');
+                let currentpagess = Number(nUrlNumss) + 1;
+                $('#page1').html(`${nUrlNumss}`);
+                $('#page2').html(`${currentpagess}`);
+                $('#page3').html(``);
+              }
+            }
+          },
+          error: (err) => {},
+        });
+      }
+      $('#page3').on('click', function () {
+        if ($('#page3').html() !== '') {
+          $('#all-forosh-tablet').html('');
+          $('#all-forosh').html('');
+          listSefaresh(nextUrl);
+        }
+      });
+      $('#page1').on('click', function () {
+        if ($('#page1').html() !== '') {
+          $('#all-forosh-tablet').html('');
+          $('#all-forosh').html('');
+          listSefaresh(backUrl);
+        }
+      });
+
+      $('.trash-forosh-icon').on('click', function () {
+        var dataProduct = $(this).data('product');
+        cancelProduct(dataProduct);
+      });
+
+      function cancelProduct(dataProduct) {
+        $.ajax({
+          url:
+            '{% url "ApiDerakhti:product_canel" %}' + '?product=' + dataProduct,
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          success: (res) => {
+            message('sucsses', res.message);
+          },
+          error: (err) => {},
+        });
+      }
+
+      function varizPrs() {
+        $.ajax({
+          url: '{% url "ApiDerakhti:deposit_request" %}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            message('sucsses', res.message);
+          },
+          error: (err) => {},
+        });
+      }
+      $('#variz-btn').on('click', function () {
+        varizPrs();
+      });
+
+      function pointSelector(number) {
+        var pointNumber = number;
+        $.ajax({
+          url: '{% url "ApiDerakhti:select_points" %}',
+          type: 'post',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          data: {
+            places: pointNumber,
+          },
+          success: (res) => {
+            console.log(res, 'res point');
+            if (res.message == 'بروزرسانی شد') {
+              message('sucsses', res.message);
+            }
+            if (res.message !== 'بروزرسانی شد') {
+              message('sucsses', 'یک بار پلن خود را انتخاب کردید');
+            }
+          },
+          error: (err) => {},
+        });
+      }
+      var linkTree = '{% url "ApiDerakhti:places_list" %}';
+
+      function derakht(linkTree) {
+        $.ajax({
+          url: linkTree,
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+
+          success: (res) => {
+            if (res.result !== null) {
+              if (res[0].main.places == 1) {
+                var config = {
+                    container: '#custom-colored',
+
+                    nodeAlign: 'BOTTOM',
+
+                    connectors: {
+                      type: 'curve',
+                    },
+                    node: {
+                      HTMLclass: 'nodeExample1',
+                    },
+                  },
+                  usermain = {
+                    HTMLclass: 'light-grayss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user1 = {
+                    parent: usermain,
+                    HTMLclass: '.light-graysss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user2 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray user1',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user3 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray user2',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  chart_config = [config, usermain, user1, user2, user3];
+                siblingSeparation: 20;
+                subTeeSeparation: 20;
+                padding: 10;
+                var rast = [];
+                var chap = [];
+                res.map((item) => {
+                  if (item.r_or_l == true) {
+                    rast.push(item);
+                  }
+                  if (item.r_or_l == false) {
+                    chap.push(item);
+                  }
+                });
+                usermain['text']['title'] = res[0].main.Owner;
+                user1['text']['title'] = res[0].main.user;
+
+                if (chap[0] !== undefined) {
+                  user2['text']['title'] = chap[0].user;
+                }
+                if (chap[0] == undefined) {
+                  user2['text']['title'] = res[0].main.user + '-L';
+                }
+
+                if (rast[0] !== undefined) {
+                  user3['text']['title'] = rast[0].user;
+                }
+                if (rast[0] == undefined) {
+                  user3['text']['title'] = res[0].main.user + '-R';
+                }
+
+                new Treant(chart_config);
+              }
+              if (res[0].main.places == 2) {
+                console.log('ppp');
+                var config = {
+                    container: '#custom-colored',
+
+                    nodeAlign: 'BOTTOM',
+
+                    connectors: {
+                      type: 'curve',
+                    },
+                    node: {
+                      HTMLclass: 'nodeExample1',
+                    },
+                  },
+                  usermain = {
+                    HTMLclass: 'light-grayss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user1 = {
+                    parent: usermain,
+                    HTMLclass: '.light-graysss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user2 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user3 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray user1',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user4 = {
+                    parent: user2,
+                    HTMLclass: 'light-gray user2',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user5 = {
+                    parent: user2,
+                    HTMLclass: 'light-gray user3',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  chart_config = [
+                    config,
+                    usermain,
+                    user1,
+                    user2,
+                    user3,
+                    user4,
+                    user5,
+                  ];
+                siblingSeparation: 20;
+                subTeeSeparation: 20;
+                padding: 10;
+                var rast = [];
+                var chap = [];
+                res.map((item) => {
+                  if (item.r_or_l == true) {
+                    rast.push(item);
+                  }
+                  if (item.r_or_l == false) {
+                    chap.push(item);
+                  }
+                });
+                usermain['text']['title'] = res[0].main.Owner;
+                user1['text']['title'] = res[0].main.user;
+                user2['text']['title'] = res[0].main.user + '-L';
+
+                if (rast[0] !== undefined) {
+                  user3['text']['title'] = rast[0].user;
+                }
+                if (rast[0] == undefined) {
+                  user3['text']['title'] = res[0].main.user + '-R';
+                }
+
+                if (chap[0] !== undefined) {
+                  user4['text']['title'] = chap[0].user;
+                }
+                if (chap[0] == undefined) {
+                  user4['text']['title'] = res[0].main.user + '-L';
+                }
+
+                if (chap[1] !== undefined) {
+                  user5['text']['title'] = chap[1].user;
+                }
+                if (chap[1] == undefined) {
+                  user5['text']['title'] = res[0].main.user + '-L';
+                }
+
+                new Treant(chart_config);
+              }
+              if (res[0].main.places == 3) {
+                var config = {
+                    container: '#custom-colored',
+
+                    nodeAlign: 'BOTTOM',
+
+                    connectors: {
+                      type: 'curve',
+                    },
+                    node: {
+                      HTMLclass: 'nodeExample1',
+                    },
+                  },
+                  usermain = {
+                    HTMLclass: 'light-grayss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user1 = {
+                    parent: usermain,
+                    HTMLclass: 'light-graysss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user2 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user3 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user4 = {
+                    parent: user2,
+                    HTMLclass: 'light-gray user1',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user5 = {
+                    parent: user2,
+                    HTMLclass: 'light-gray user2',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user6 = {
+                    parent: user3,
+                    HTMLclass: 'light-gray user4',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user7 = {
+                    parent: user3,
+                    HTMLclass: 'light-gray user5',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  chart_config = [
+                    config,
+                    usermain,
+                    user1,
+                    user2,
+                    user3,
+                    user4,
+                    user5,
+                    user6,
+                    user7,
+                  ];
+                siblingSeparation: 20;
+                subTeeSeparation: 20;
+                padding: 10;
+                usermain['text']['title'] = res[0].main.Owner;
+                user1['text']['title'] = res[0].main.user;
+                user2['text']['title'] = res[0].main.user + '-L';
+                user3['text']['title'] = res[0].main.user + '-R';
+                var rast = [];
+                var chap = [];
+                res.map((item) => {
+                  if (item.r_or_l == true) {
+                    rast.push(item);
+                  }
+                  if (item.r_or_l == false) {
+                    chap.push(item);
+                  }
+                });
+                if (chap[0] !== undefined) {
+                  if (chap[0].user == undefined) {
+                    user4['text']['title'] = chap[0].user;
+                  }
+                  if (chap[0].user !== undefined) {
+                    user4['text']['title'] = res[0].main.user + '-L';
+                  }
+                }
+                if (chap[1] !== undefined) {
+                  if (chap[1].user == undefined) {
+                    user5['text']['title'] = chap[1].user;
+                  }
+                  if (chap[1].user !== undefined) {
+                    user5['text']['title'] = res[0].main.user + '-L';
+                  }
+                }
+                if (rast[0] !== undefined) {
+                  if (rast[0].user == undefined) {
+                    user6['text']['title'] = rast[0].user;
+                  }
+                  if (rast[0].user !== undefined) {
+                    user6['text']['title'] = res[0].main.user + '-R';
+                  }
+                }
+                if (rast[1] !== undefined) {
+                  if (rast[1].user == undefined) {
+                    user7['text']['title'] = rast[1].user;
+                  }
+                  if (rast[1].user !== undefined) {
+                    user7['text']['title'] = res[0].main.user + '-R';
+                  }
+                }
+
+                new Treant(chart_config);
+              }
+              if (res[0].main.places == 7) {
+                var config = {
+                    container: '#custom-colored',
+
+                    nodeAlign: 'BOTTOM',
+
+                    connectors: {
+                      type: 'curve',
+                    },
+                    node: {
+                      HTMLclass: 'nodeExample1',
+                    },
+                  },
+                  usermain = {
+                    HTMLclass: 'light-grayss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user1 = {
+                    parent: usermain,
+                    HTMLclass: 'light-graysss',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user2 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user3 = {
+                    parent: user1,
+                    HTMLclass: 'light-gray',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user4 = {
+                    parent: user2,
+                    HTMLclass: 'light-grays',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user5 = {
+                    parent: user2,
+                    HTMLclass: 'light-grays',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user6 = {
+                    parent: user3,
+                    HTMLclass: 'light-grays',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user7 = {
+                    parent: user3,
+                    HTMLclass: 'light-grays',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user8 = {
+                    parent: user4,
+                    HTMLclass: 'light-grays user1',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user9 = {
+                    parent: user4,
+                    HTMLclass: 'light-grays user2',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user10 = {
+                    parent: user5,
+                    HTMLclass: 'light-grays user3',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user11 = {
+                    parent: user5,
+                    HTMLclass: 'light-grays user4',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user12 = {
+                    parent: user6,
+                    HTMLclass: 'light-grays user5',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user13 = {
+                    parent: user6,
+                    HTMLclass: 'light-grays user6',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user14 = {
+                    parent: user7,
+                    HTMLclass: 'light-grays user7',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  user15 = {
+                    parent: user7,
+                    HTMLclass: 'light-grays user8',
+                    text: {
+                      title: '',
+                    },
+                  },
+                  chart_config = [
+                    config,
+                    usermain,
+                    user1,
+                    user2,
+                    user3,
+                    user4,
+                    user5,
+                    user6,
+                    user7,
+                    user8,
+                    user9,
+                    user10,
+                    user11,
+                    user12,
+                    user13,
+                    user14,
+                    user15,
+                  ];
+                siblingSeparation: 20;
+                subTeeSeparation: 20;
+                padding: 10;
+                if (res[0].main.Owner !== null) {
+                  usermain['text']['title'] = res[0].main.Owner;
+                }
+                user1['text']['title'] = res[0].main.user;
+                user2['text']['title'] = res[0].main.user + '-L';
+                user4['text']['title'] = res[0].main.user + '-L';
+                user5['text']['title'] = res[0].main.user + '-L';
+                user3['text']['title'] = res[0].main.user + '-R';
+                user6['text']['title'] = res[0].main.user + '-R';
+                user7['text']['title'] = res[0].main.user + '-R';
+                var rast = [];
+                var chap = [];
+                res.map((item) => {
+                  if (item.r_or_l == true) {
+                    rast.push(item);
+                  }
+                  if (item.r_or_l == false) {
+                    chap.push(item);
+                  }
+                });
+                if (chap[0] !== undefined) {
+                  user8['text']['title'] = chap[0].user;
+                }
+                if (chap[0] == undefined) {
+                  user8['text']['title'] = res[0].main.user + '-L';
+                }
+                if (chap[1] !== undefined) {
+                  user9['text']['title'] = chap[1].user;
+                }
+                if (chap[1] == undefined) {
+                  user9['text']['title'] = res[0].main.user + '-L';
+                }
+                if (chap[2] !== undefined) {
+                  user10['text']['title'] = chap[2].user;
+                }
+                if (chap[2] == undefined) {
+                  user10['text']['title'] = res[0].main.user + '-L';
+                }
+                if (chap[3] !== undefined) {
+                  user11['text']['title'] = chap[3].user;
+                }
+                if (chap[3] == undefined) {
+                  user11['text']['title'] = res[0].main.user + '-L';
+                }
+                if (rast[0] !== undefined) {
+                  user12['text']['title'] = rast[0].user;
+                }
+                if (rast[0] == undefined) {
+                  user12['text']['title'] = res[0].main.user + '-R';
+                }
+                if (rast[1] !== undefined) {
+                  user13['text']['title'] = rast[1].user;
+                }
+                if (rast[1] == undefined) {
+                  user13['text']['title'] = res[0].main.user + '-R';
+                }
+                if (rast[2] !== undefined) {
+                  user14['text']['title'] = rast[2].user;
+                }
+                if (rast[2] == undefined) {
+                  user14['text']['title'] = res[0].main.user + '-R';
+                }
+                if (rast[3] !== undefined) {
+                  user15['text']['title'] = rast[3].user;
+                }
+                if (rast[3] == undefined) {
+                  user15['text']['title'] = res[0].main.user + '-R';
+                }
+
+                new Treant(chart_config);
+              }
+            }
+          },
+          error: (err) => {},
+        });
+      }
+      derakht(linkTree);
+      $('.user1').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        linkTree =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTree);
+      });
+      $('.user2').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user3').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user4').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user5').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user6').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMlm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user7').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        $('.chart').html('');
+        var linkTreeE =
+          '{% url "ApiMLm:places_list_filter" %}' +
+          '?username=' +
+          linkChild;
+        derakht(linkTreeE);
+      });
+      $('.user8').on('click', function () {
+        var linkChild = $(this).children('p').text;
+        var linkTreeE = linkTree + '?username=' + linkChild;
+        derakht(linkTreeE);
+      });
+
+      function checkCodeUser() {
+        var codeUser = $('#reagent-code-input').val();
+        var nameMoAref = document.getElementById('name-moAref');
+        var nameMoaref2 = document.getElementById('name-moAref2');
+        var nameMoarefLeft = document.getElementById('name-moAref-left');
+        var nameMoarefRight = document.getElementById('name-moAref-right');
+        var mainmoarefiuser = document.getElementById('main-moarefi-user');
+        $.ajax({
+          url: '{% url "ApiMlm:check_identifierـcode" %}',
+          type: 'get',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          data: {
+            code: codeUser,
+          },
+
+          success: (res) => {
+            if (res.message == 'کاربر وجود ندارد') {
+              message('sucsses', res.message);
+            } else {
+              nameMoAref.innerHTML = res.message;
+              nameMoaref2.innerHTML = res.message;
+              nameMoarefLeft.innerHTML = res.message + ' left';
+              nameMoarefRight.innerHTML = res.message + ' right';
+              mainmoarefiuser.value = res.message;
+            }
+          },
+          error: (err) => {},
+        });
+      }
+      $('#moaref-one-btn-un').on('click', function () {
+        checkCodeUser();
+      });
+      function pvlevel() {
+        var mainmoarefiuser = $('#main-moarefi-user').val();
+        var pvlevel = document.getElementById('pv-level');
+        var LeftOrRight = document.querySelector(
+          'input[name="parent"]:checked'
+        ).value;
+        if (LeftOrRight == 'false') {
+          LeftOrRight = false;
+        } else {
+          LeftOrRight = true;
+        }
+
+        $.ajax({
+          url:
+            '{% url "ApiMlm:place_user_reservation" %}' +
+            '?id=' +
+            mainmoarefiuser,
+          type: 'post',
+          headers: {
+            Authorization: 'Token {{ user_token }}',
+          },
+          data: {
+            r_or_l: LeftOrRight,
+          },
+
+          success: (res) => {
+            console.log(typeof LeftOrRight, 'ressss');
+            message('sucsses', res.message);
+          },
+          error: (err) => {
+            console.log(err, 'respvlevel');
+          },
+        });
+      }
+      $('#pvlevel').on('click', function () {
+        pvlevel();
+      });
+    </script>
+
+    <script>
+          var tiketFile2
+
+          var teketUrl = '{% url "ApiMlm:mlm_panel_tikets_list" %}'
+         var filterUrl = '{% url "ApiMlm:mlm_panel_tikets_filter" %}?id='
+             function message(type, msg) {
+                 var succ = type
+                 var messageText = msg
+                 var snackbar = document.getElementById('snackbar')
+
+                 if (succ == "sucsses") {
+                     snackbar.innerText = messageText
+                     snackbar.className += " sucsses"
+                     setTimeout(function() {
+                         snackbar.innerText = " "
+                         snackbar.classList.remove("sucsses")
+                     }, 3000);
+                 }
+
+                 if (succ == "error") {
+                     snackbar.innerText = msg
+                     snackbar.className += " error"
+                     setTimeout(function() {
+                         snackbar.innerText = " "
+                         snackbar.classList.remove("error")
+                     }, 3000);
+                 }
+
+                 // setTimeout(function(){ snackbar.classList.remove("error")}, 3000);
+             }
+
+
+
+
+             $('#edit-acount-btn').click(function() {
+                 let phNum1 = $('#ph-num1').val()
+                 let phNum2 = $('#ph-num2').val()
+                 let pass = $('#pass').val()
+                     // console.log(fullName,phNum2 , phNum , curentPass,newPass,emil);
+
+                 $.ajax({
+                     url: '{% url 'ApiTaksathi:user_edit_profile' %}',
+                     type: "put",
+                     headers: {
+                         'Authorization': 'Token {{ user_token }}'
+                     },
+                     data: {
+                         mobile1: phNum1,
+                         password: pass
+
+                     },
+                     success: (res) => {
+                         console.log(res, 'res');
+                         if (phNum1 == '' && pass == '' || phNum1 == '' || pass == '') {
+                             message('error', 'پرکردن این فیلد اجباری است')
+
+                             return
+                         } else {
+                             message('sucsses', res.message)
+                         }
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+             })
+             $('#go-home').click(function(){
+                window.location.href = "/"
+
+             })
+             function listSabeghes() {
+
+                 $.ajax({
+                     url: '{% url "ApiMlm:products_orders_list" %}',
+                     // type:"post",
+                     headers: {
+                         'Authorization': 'Token {{ user_token }}'
+                     },
+                     // data:{
+
+                     //     },
+                     success: (res) => {
+                         console.log(res, 'res o000');
+
+                            var mArrOrderListy = []
+                         mArrOrderListy.push(res.results)
+      $('#order-history').html('')
+                         mArrOrderListy.map(item=>{
+                             for(i in item){
+                                 // console.log('iiiiiiii' , item[i].title)
+                             $('#order-history').append(`
+                             <div class="user-history-mainbox">
+                                 <div class="user-history-box">
+                                     <div class=" user-history-box-right">
+                                         <div class="user-history-box-right-div">
+                                             <img src=" ${item[i].product_image}" class="user-history-img">
+                                         </div>
+                                     <h3 class="user-history-text">${item[i].title}</h3>
+                                     </div>
+                                     <div class="  user-history-box-left">
+
+                                         <div class="user-history-text-div">
+                                             <h3 class="user-history-text">${item[i].price}</h3>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             `)
+                             }
+                              if (res.previous == null && res.next == null) {
+                 $('#page1').html(``);
+                 $('#page2').html('1');
+                 $('#page3').html(``);
+             }
+             if (res.previous == null && res.next !== null) {
+                 nextUrl = res.next;
+                 $('#page1').html(``);
+                 $('#page2').html('1');
+                 $('#page3').html('2');
+             }
+             if (res.previous !== null && res.next !== null) {
+                 nextUrl = res.next;
+                 backUrl = res.previous;
+                 let nUrls = new URL(res.next)
+                 let nUrlNums = nUrls.searchParams.get("page");
+                 let currentpages = Number(nUrlNums) - 1;
+                 let prevPageNums = Number(nUrlNums) - 2;
+                 $('#page1').html(`${prevPageNums}`);
+                 $('#page2').html(`${currentpages}`);
+                 $('#page3').html(`${nUrlNums}`);
+             }
+             if (res.previous !== null && res.next == null) {
+                 if (res.previous == '{% url "ApiTaksathi:products_list" %}') {
+                     backUrl = res.previous;
+                     $('#page1').html(`1`);
+                     $('#page2').html('2');
+                     $('#page3').html('');
+                 }
+                 if (res.previous !== '{% url "ApiTaksathi:products_list" %}') {
+                     backUrl = res.previous;
+                     let nUrlss = new URL(res.previous)
+                     let nUrlNumss = nUrlss.searchParams.get("page");
+                     let currentpagess = Number(nUrlNumss) + 1;
+                     $('#page1').html(`${nUrlNumss}`);
+                     $('#page2').html(`${currentpagess}`);
+                     $('#page3').html(``);
+                 }
+             }
+                         })
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+             }
+              function listSabeghe(listSabegheURL) {
+
+                 $.ajax({
+                     url: listSabegheURL,
+                     // type:"post",
+                     headers: {
+                         'Authorization': 'Token {{ user_token }}'
+                     },
+                     // data:{
+
+                     //     },
+                     success: (res) => {
+
+                            var mArrOrderListy = []
+                         mArryOrderList.push(res.results)
+      $('#order-history').html('')
+                         mArryOrderList.map(item=>{
+                             for(i in item){
+                             $('#order-history').append(`
+                             <div class="user-history-mainbox">
+                                 <div class="user-history-box">
+                                     <div class=" user-history-box-right">
+                                         <div class="user-history-box-right-div">
+                                             <img src=" ${item[i].image}" class="user-history-img">
+
+                                         </div>
+                                     <h3 class="user-history-text"> ${item[i].title}</h3>}
+                                     </div>
+                                     <div class="  user-history-box-left">
+
+                                         <div class="user-history-text-div">
+
+                                             <h3 class="user-history-text">${item[i].price}</h3>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                             </div>
+                             `)
+                             }
+                              if (res.previous == null && res.next == null) {
+                 $('#page1').html(``);
+                 $('#page2').html('1');
+                 $('#page3').html(``);
+             }
+             if (res.previous == null && res.next !== null) {
+                 nextUrl = res.next;
+                 $('#page1').html(``);
+                 $('#page2').html('1');
+                 $('#page3').html('2');
+             }
+             if (res.previous !== null && res.next !== null) {
+                 nextUrl = res.next;
+                 backUrl = res.previous;
+                 let nUrls = new URL(res.next)
+                 let nUrlNums = nUrls.searchParams.get("page");
+                 let currentpages = Number(nUrlNums) - 1;
+                 let prevPageNums = Number(nUrlNums) - 2;
+                 $('#page1').html(`${prevPageNums}`);
+                 $('#page2').html(`${currentpages}`);
+                 $('#page3').html(`${nUrlNums}`);
+             }
+             if (res.previous !== null && res.next == null) {
+                 if (res.previous == '{% url "ApiTaksathi:products_list" %}') {
+                     backUrl = res.previous;
+                     $('#page1').html(`1`);
+                     $('#page2').html('2');
+                     $('#page3').html('');
+                 }
+                 if (res.previous !== '{% url "ApiTaksathi:products_list" %}') {
+                     backUrl = res.previous;
+                     let nUrlss = new URL(res.previous)
+                     let nUrlNumss = nUrlss.searchParams.get("page");
+                     let currentpagess = Number(nUrlNumss) + 1;
+                     $('#page1').html(`${nUrlNumss}`);
+                     $('#page2').html(`${currentpagess}`);
+                     $('#page3').html(``);
+                 }
+             }
+                         })
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+             }
+      $('#page3').on('click', function() {
+      if ($('#page3').html() !== '') {
+         $('#order-history').html('')
+         listSabeghe(nextUrl)
+      }
+      })
+      $('#page1').on('click', function() {
+      if ($('#page1').html() !== '') {
+         $('#order-history').html('')
+         listSabeghe(backUrl)
+      }
+      })
+
+             function getdata() {
+                 $.ajax({
+                     url: '{% url "ApiMlm:products_comments_list" %}?id={{ request.user.id }}',
+                     success: (res) => {
+
+
+      console.log('www',res)
+                         var mArryCommentProduct = []
+                         mArryCommentProduct.push(res.results)
+      $('#comments').html('')
+                         mArryCommentProduct.map(item=>{
+                             for(i in item){
+
+
+                         $('#comments').append(`
+                                 <div class="user-history-mainbox">
+                                     <div class="user-history-box">
+                                         <div class=" user-history-box-right4">
+                                             <img src="${item[i].image}" class="user-comments-img" />
+                                             <div class="user-comments-text">
+                                                 <h2> ${item[i].product} </h2>
+                                                 <p class="user-comments-text-p">
+                                                     ${item[i].comment}
+                                                 </p>
+                                             </div>
+
+                                         </div>
+
+
+                                         <div class="  user-history-box-left4">
+                                             <div>
+                                                 <p>${item[i].jdate}</p>
+                                             </div>
+
+                                         </div>
+                                     </div>
+                                     <div class="div-line"></div>
+                                 </div>
+
+                             `)
+
+                                 // console.log('iiiiiiii' , item[i].title)
+
+                             // $('#order-history').append(`
+                             // <div class="user-history-mainbox">
+                             //     <div class="user-history-box">
+                             //         <div class=" user-history-box-right">
+                             //             <div class="user-history-box-right-div">
+                             //                 <img src=" ${item[i].image}" class="user-history-img">
+                             //                 // <img src="./asset/img/pic-32.png" class="user-history-img">
+                             //                 // <img src="./asset/img/pic-13.png" class="user-history-img">
+                             //             </div>
+                             //         <h3 class="user-history-text"> ${item[i].title}</h3>}
+                             //         </div>
+                             //         <div class="  user-history-box-left">
+                             //             <div class="user-history-lefticon"></div>
+                             //             <div class="user-history-text-div">
+                             //                 <h3 class="user-history-text">dl-sadd13f </h3>
+                             //                 <h3 class="user-history-text">${item[i].price}</h3>
+                             //             </div>
+                             //         </div>
+                             //     </div>
+                             //     <div class="div-line"></div>
+                             // </div>
+                             // `)
+                             }
+                             let fakeUrl = "ttt"
+                                 if (res.previous == null && res.next == null) {
+                 $('#page11').html(``);
+                 $('#page22').html('1');
+                 $('#page33').html(``);
+             }
+             if (res.previous == null && res.next !== null) {
+                 nextUrl = res.next;
+                 $('#page11').html(``);
+                 $('#page22').html('1');
+                 $('#page33').html('2');
+             }
+             if (res.previous !== null && res.next !== null) {
+                 nextUrl = res.next;
+                 backUrl = res.previous;
+                 let nUrls = new URL(res.next)
+                 let nUrlNums = nUrls.searchParams.get("page");
+                 let currentpages = Number(nUrlNums) - 1;
+                 let prevPageNums = Number(nUrlNums) - 2;
+                 $('#page11').html(`${prevPageNums}`);
+                 $('#page22').html(`${currentpages}`);
+                 $('#page33').html(`${nUrlNums}`);
+             }
+             if (res.previous !== null && res.next == null) {
+                 if (res.previous == '{% url "ApiMlm:products_comments_list" %}?id={{ request.user.id }}') {
+                     backUrl = res.previous;
+                     $('#page11').html(`1`);
+                     $('#page22').html('2');
+                     $('#page33').html('');
+                 }
+                 if (res.previous !== '{% url "ApiMlm:products_comments_list" %}?id={{ request.user.id }}') {
+                     backUrl = res.previous;
+                     let nUrlss = new URL(res.previous)
+                     let nUrlNumss = nUrlss.searchParams.get("page");
+                     let currentpagess = Number(nUrlNumss) + 1;
+                     $('#page11').html(`${nUrlNumss}`);
+                     $('#page22').html(`${currentpagess}`);
+                     $('#page33').html(``);
+                 }
+             }
+                         })
+
+
+
+
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+             }
+      getdata()
+
+               function getdatas(getdataUrl) {
+                 $.ajax({
+                     url: getdataUrl,
+                     success: (res) => {
+                         var mArryCommentProduct = []
+                         mArryCommentProduct.push(res.results)
+      $('#comments').html('')
+                         mArryCommentProduct.map(item=>{
+                             for(i in item){
+                         $('#comments').append(`
+                                 <div class="user-history-mainbox">
+                                     <div class="user-history-box">
+                                         <div class=" user-history-box-right4">
+                                             <img src="${item[i].image}" class="user-comments-img" />
+                                             <div class="user-comments-text">
+                                                 <h2> ${item[i].product} </h2>
+                                                 <p class="user-comments-text-p">
+                                                     ${item[i].comment}
+                                                 </p>
+                                             </div>
+
+                                         </div>
+
+
+                                         <div class="  user-history-box-left4">
+                                             <div>
+                                                 <p>${item[i].jdate}</p>
+                                             </div>
+
+                                         </div>
+                                     </div>
+                                     <div class="div-line"></div>
+                                 </div>
+
+                             `)
+
+                                 // console.log('iiiiiiii' , item[i].title)
+
+                             // $('#order-history').append(`
+                             // <div class="user-history-mainbox">
+                             //     <div class="user-history-box">
+                             //         <div class=" user-history-box-right">
+                             //             <div class="user-history-box-right-div">
+                             //                 <img src=" ${item[i].image}" class="user-history-img">
+                             //                 // <img src="./asset/img/pic-32.png" class="user-history-img">
+                             //                 // <img src="./asset/img/pic-13.png" class="user-history-img">
+                             //             </div>
+                             //         <h3 class="user-history-text"> ${item[i].title}</h3>}
+                             //         </div>
+                             //         <div class="  user-history-box-left">
+                             //             <div class="user-history-lefticon"></div>
+                             //             <div class="user-history-text-div">
+                             //                 <h3 class="user-history-text">dl-sadd13f </h3>
+                             //                 <h3 class="user-history-text">${item[i].price}</h3>
+                             //             </div>
+                             //         </div>
+                             //     </div>
+                             //     <div class="div-line"></div>
+                             // </div>
+                             // `)
+                             }
+                                 if (res.previous == null && res.next == null) {
+                                $('#page11').html(``);
+                 $('#page22').html('1');
+                 $('#page33').html(``);
+             }
+             if (res.previous == null && res.next !== null) {
+                 nextUrl = res.next;
+                 $('#page11').html(``);
+                 $('#page22').html('1');
+                 $('#page33').html('2');
+             }
+             if (res.previous !== null && res.next !== null) {
+                 nextUrl = res.next;
+                 backUrl = res.previous;
+                 let nUrls = new URL(res.next)
+                 let nUrlNums = nUrls.searchParams.get("page");
+                 let currentpages = Number(nUrlNums) - 1;
+                 let prevPageNums = Number(nUrlNums) - 2;
+                 $('#page11').html(`${prevPageNums}`);
+                 $('#page22').html(`${currentpages}`);
+                 $('#page33').html(`${nUrlNums}`);
+             }
+             if (res.previous !== null && res.next == null) {
+                 if (res.previous == '{% url "ApiMlm:products_comments_list" %}?id={{ request.user.id }}') {
+                     backUrl = res.previous;
+                     $('#page11').html(`1`);
+                     $('#page22').html('2');
+                     $('#page33').html('');
+                 }
+                 if (res.previous !== '{% url "ApiMlm:products_comments_list" %}?id={{ request.user.id }}') {
+                     backUrl = res.previous;
+                     let nUrlss = new URL(res.previous)
+                     let nUrlNumss = nUrlss.searchParams.get("page");
+                     let currentpagess = Number(nUrlNumss) + 1;
+                     $('#page11').html(`${nUrlNumss}`);
+                     $('#page22').html(`${currentpagess}`);
+                     $('#page33').html(``);
+                 }
+             }
+                         })
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+             }
+                         $('#page33').on('click', function() {
+      if ($('#page33').html() !== '') {
+         $('#comments').html('')
+         getdatas(nextUrl)
+      }
+      })
+      $('#page11').on('click', function() {
+      if ($('#page11').html() !== '') {
+         $('#comments').html('')
+         getdatas(backUrl)
+      }
+      })
+
+
+      $('#teket-file2').change(function(e) {
+
+             if (e.target.files && e.target.files.length > 0) {
+                 tiketFile2 = e.target.files[0]
+                 console.log('m5', tiketFile2);
+
+             }
+         })
+
+      var created
+
+             $('#send-ticket').click(async function() {
+                 var tiketTitle = $('#title-tiket').val()
+                 var tiketText = $('#text-tiket').val()
+
+                await $.ajax({
+                     url: '{% url 'ApiTaksathi:taksathi_panel_tikets_new' %}',
+                     type: 'post',
+                     headers: {
+                         'Authorization': 'Token {{ user_token }}'
+                     },
+                     data: {
+                         title: tiketTitle,
+                         tiket: tiketText,
+                         support: 1,
+                     },
+                     success: (res) => {
+                         console.log(res.created, 'res');
+                         created = Number(res.created)
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                     }
+                 })
+                 var ticketText = $('#text-tiket').val()
+                 console.log(ticketText);
+
+
+                     let formData = new FormData()
+             formData.append('tiket', created)
+             formData.append('user',{{request.user.id}})
+             formData.append('support', 13)
+             formData.append('text', ticketText)
+
+             if(tiketFile2 ){
+                 formData.append('file', tiketFile2 )
+             }
+
+                 $.ajax({
+                     url: '{% url "ApiTaksathi:taksathi_panel_tikets_add" %}',
+                     type: 'post',
+                  processData: false,
+                 contentType: false,
+                     headers: {
+                         'Authorization': 'Token {{ user_token }}'
+                     },
+                     data: formData,
+                     success: (res) => {
+                         console.log(res, 'res');
+                         if (ticketText == '' && tiketTitle == '' || tiketTitle == '' || ticketText == '') {
+                             message('error', 'متن پیام را وارد کنید')
+                             return
+                         }
+
+                         if (res.message == 'با موفقیت اضافه شد') {
+                             message('sucsses', res.message)
+                         }
+
+                     },
+                     error: (err) => {
+                         console.log(err, 'err');
+                         message('error', res.message)
+
+                     }
+                 })
+             })
+
+
+         function getTeket(teketUrl) {
+
+             $.ajax({
+                 url: teketUrl,
+                 headers: {
+                     'Authorization':  'Token {{ user_token }}'
+                 },
+                 success: (res) => {
+                     console.log(res, 'res teket');
+                         // var mamad = res.results[0].title
+                         // mamad
+                         // console.log('fff', mamad);
+                         var mArry = []
+                         mArry.push(res.results)
+
+                         mArry.map(item=>{
+                             for(i in item){
+                                 // console.log('iiiiiiii' , item[i].title)
+                                 if (item[i].status) {
+                                     // $('#teket-tabel').html('')
+                                     $('#teket-tabel').append(`
+                                             <tr class="teket-tr single-user"  data-status="${item[i].status}"  data-date="${item[i].jdate}"  data-title="${item[i].title}"  data-id="${item[i].id}">
+                                             <td>${item[i].jdate}</td>
+                                             <td> ${item[i].title}</td>
+                                             <td> بسته</td>
+                                             </tr>
+                                             `)
+                                 } else {
+                                     $('#teket-tabel').append(`
+                                             <tr id="dd" class="teket-tr single-user" data-status="${item[i].status}"  data-date="${item[i].jdate}"  data-title="${item[i].title}"  data-id="${item[i].id}">
+                                             <td>${item[i].jdate}</td>
+                                             <td> ${item[i].title}</td>
+                                             <td> باز</td>
+                                             </tr>
+                                             `)
+                                 }
+                             }
+                         })
+
+
+                     var nUrl
+                         // ---
+                     // $.ajax({
+                     //         url: filterUpdateUrl,
+                     //         type:'put',
+                     //         headers: {
+                     //             'Authorization':  'Token {{ user_token }}'
+                     //         },
+                     //         success: (res) => {
+                     //             console.log(res, 'res upde status');
+
+
+                     //         },
+                     //         error: (err) => {
+                     //             console.log(err, 'err upde status');
+                     //         }
+                     //     })
+                         // ---
+
+                     $('tr').click(function tekFilter() {
+                             teketId = $(this).attr('data-id')
+                             uu = $(this).attr('data-id')
+                             titleTeket = $(this).attr('data-title')
+                             let statusTeket = $(this).attr('data-status')
+                             console.log(statusTeket);
+
+                             let teketS = ''
+                             dateTeket = $(this).attr('data-date')
+                             if (statusTeket == "true") {
+                                 $('#t-h-p3').text("بسته")
+
+                             }
+                             if (statusTeket == "false") {
+                                 $('#t-h-p3').text("باز")
+
+
+                             }
+
+
+
+                             $('#t-h-p4').text(dateTeket)
+                             $('#t-h-p1').text(titleTeket)
+                             $('#t-h-p2').text(teketId)
+
+                             console.log('qvq', typeof(teketS), teketS);
+                             // var cc = nu
+                             // console.log(cc, 'sssaaaa');
+                             // console.log('qq', filterUrl + uu);
+                             $.ajax({
+                                 url:  filterUrl + uu,
+                                 headers: {
+                                     'Authorization':  'Token {{ user_token }}'
+                                 },
+                                 success: (res) => {
+                                     // nUrl = res.next
+
+                                     // console.log('555555', res);
+                                     // }
+                                                                             var ii = []
+
+                                     ii.push(res.results)
+                                     $('#chat-box').html('')
+                                     console.log('item', ii);
+
+                                     ii[0].map(item => {
+                                         // teketId = item.tiket
+                                         userId = item.user
+
+                                         if (item.is_support == false) {
+                                             $('#chat-box').append(`
+                                 <div class="ui-received-chat">
+                                     <div class="chat-sender-profile" ></div>
+                                     <div class="chat-text-box">
+                                         <p class="chat-p">${item.text}</p>
+                                         <img class="file-text" alt=" No File" src="${item.file}" />
+
+                                         <p class="message-date">${item.jdate}</p>
+
+                                     </div>
+                                 </div>`)
+
+                                         } else {
+                                             $('#chat-box').append(`
+                                 <div class="ui-send-chat">
+                                     <div class="chat-profile" ></div>
+                                     <div class="chat-send-text-box">
+                                         <p class="chat-p">${item.text}</p>
+                                         <img class="file-text" alt=" No File" src="${item.file}" />
+                                         <p class="message-date2">${item.jdate}</p>
+
+                                     </div>
+                                 </div>`)
+
+                                         }
+                                         // console.log('item2', item);
+                                     })
+
+                                     $('#parent-div').css("display", "block")
+                                     $('#teket-tabel').css("display", "none")
+                                     console.log(res, 'res teket filter');
+                                     $('#close-iconn').click(function() {
+                                         $('#parent-div').css("display", "none")
+                                         $('#teket-tabel').css("display", "block")
+                                         // while (ii.length > 0) {
+                                         //     ii.pop()
+
+                                         // }
+                                     })
+
+                                     // if (nUrl !== '') {
+                                     //     let nu = nUrl
+                                     //     console.log('nnnn', nu);
+                                     //     tekFilter('',nu)
+
+
+                                     // }
+                                 },
+                                 error: (err) => {
+                                     console.log(err, 'err filter');
+                                 }
+                             })
+
+
+                         })
+                         // ---
+                     // if (res.next) {
+                     //     let nextUrl = res.next
+                     //     getTeket(nextUrl)
+                     // }
+                     // $('tr').click(function() {
+                     //     console.log('aaaa');
+                     //     tekFilter(nu)
+
+                     // })
+                 },
+                 error: (err) => {
+                     console.log(err, 'err');
+                 }
+             })
+         }
+         getTeket(teketUrl)
+         var tiketFile
+         $('#add-teket-file').change(function(e) {
+
+             if (e.target.files && e.target.files.length > 0) {
+                 console.log('m5');
+                 tiketFile = e.target.files[0]
+                 // console.log('m5', tiketFile);
+
+             }
+         })
+
+
+         $('#send-message').click(function() {
+             var ticketText = $('#tekek-txt').val()
+             let created
+
+
+
+             // var tiketFile  = $('#teket-file').val()
+             // console.log(ticketText);
+             // console.log('tiket',
+             //     teketId, userId);
+             let formData = new FormData()
+             formData.append('tiket', teketId)
+             formData.append('user', {{ request.user.id }})
+             formData.append('support', 1)
+              if(ticketText==''){
+
+                         message('error','متن پیام را وارد کنید')
+                         return
+                     }
+                     else{
+                                         formData.append('text', ticketText)
+
+                     }
+             if(tiketFile ){
+                 formData.append('file', tiketFile )
+             }
+             $.ajax({
+                 url:'{% url "ApiTaksathi:taksathi_panel_tikets_add" %}' ,
+                 type: 'post',
+                 headers: {
+                     'Authorization':  'Token {{ user_token }}'
+                 },
+                 data: formData,
+                 processData: false,
+                 contentType: false,
+                 success: (res) => {
+
+                     console.log(res, 'res adddd');
+
+
+                     if(res.message =='با موفقیت اضافه شد'){
+                         message('sucsses',res.message)
+                         $('#tekek-txt').val('')
+                     }
+                 },
+                 error: (err) => {
+                     console.log(err, 'aaaaaaaerr');
+                     message('error',res.message)
+
+                 }
+             })
+         })
+    </script>
+
+    <script>
+      function copyId() {
+        var t = document.getElementById('user-id'),
+          n = document.createRange();
+        n.selectNode(t),
+          window.getSelection().addRange(n),
+          document.execCommand('copy'),
+          window.getSelection().removeAllRanges();
+      }
+    </script>
+
+    <script>
+      let tableContent = '';
+      for (let i = 0; i < 50; i++) {
+        tableContent += `
+        <tr>
+                  <td>${i + 1}</td>
+                  <td>
+                    <p>0/000/66 ریال حجم فروش در بازوی راست</p>
+                    <p>0/000/66 ریال حجم فروش در بازوی چپ</p>
+                  </td>
+                  <td>10.560.000</td>
+                </tr>
+        `;
+      }
+      $('#money-table').html(tableContent);
+    </script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>-->
+
+    <!--<script src="{% static 'Derakhti/js/derakhti-panel.js' %}"></script>-->
+  </body>
+</html>

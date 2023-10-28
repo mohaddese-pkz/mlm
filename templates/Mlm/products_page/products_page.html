@@ -1,0 +1,214 @@
+{% extends 'base/base.html' %} {% load static %} {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+
+<main>
+    <br>
+     <br>
+      <br>
+
+      <section id="content ">
+        <h5 class="pt-4 pb-2 mx-2 " style="text-align: center">محصولات</h5>
+
+    </section>
+    <section id="product">
+         <div class="hori-list">
+        <div class="products-page">
+            <div class="products-list1">
+                <div class="product-slider">
+                    <section class="product">
+                        <div id="product-container-id" class="row d-flex gap-0 g-4">
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-slider">
+        <div id="go-back-card" class="page-icon"></div>
+        <div class="page-number" dir="ltr">
+            <span id="page1" class="page1 page"></span>
+            <span id="page2" class="page2 page"></span>
+            <span id="page3" class="page2 page"></span>
+        </div>
+        <div id="go-next-card" class="page-icon">
+        </div>
+    </div>
+    </section>
+
+</main>
+
+<script>
+$(function(){
+    $('#slider .main-carousel').flickity({
+        wrapAround: true
+      });
+      var swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+      });
+      var swiper = new Swiper(".voice-slider", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+      });
+})
+    function loadData() {
+        $.ajax({
+            url: '{% url "ApiMlm:products_list" %}',
+            type: "get",
+            success: (response) => {
+console.log(response , "load data")
+                var newResulte = []
+                newResulte.push(response.results)
+                $('#product-container-id').html(``)
+                newResulte[0].forEach(element => {
+
+                    morebtn = "/mlm/products/detail/" + element.id + "/" + element.slug + "/";
+                    $('#product-container-id').append(`
+                 <div class="col-12 col-md-6 col-lg-4">
+                                <div class="w-100 mb-3">
+                                    <a href="${morebtn}" id="token-hori" class="product-item-image-container">
+                                        <img class="product-item-image rounded" src="${element.image}" alt="">
+                                    </a>
+
+                                </div>
+                                <div class="details details-main h-auto">
+
+                                    <a href="${morebtn}">
+                                        <h2 class="text-nowrap overflow-hidden product-text">${element.title}</h2>
+                                    </a>
+                                </div>
+                            </div>
+                        `)
+                    })
+                if (response.previous == null && response.next == null) {
+                    $('#page1').html(``);
+                    $('#page2').html('1');
+                    $('#page1').html(``);
+                }
+                if (response.previous == null && response.next !== null) {
+                    nextUrl = response.next;
+                    $('#page1').html(``);
+                    $('#page2').html('1');
+                    $('#page3').html('2');
+                }
+                if (response.previous !== null && response.next !== null) {
+                    nextUrl = response.next;
+                    backUrl = response.previous;
+                    let nUrls = new URL(response.next)
+                    let nUrlNums = nUrls.searchParams.get("page");
+                    let currentpages = Number(nUrlNums) - 1;
+                    let prevPageNums = Number(nUrlNums) - 2;
+                    $('#page1').html(`${prevPageNums}`);
+                    $('#page2').html(`${currentpages}`);
+                    $('#page3').html(`${nUrlNums}`);
+                }
+                
+           },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+       function loadDataN(loadDataNUrl) {
+        $.ajax({
+            url: loadDataNUrl,
+            type: "get",
+            success: (response) => {
+
+                var newResulte = []
+                newResulte.push(response.results)
+                $('#product-container-id').html(``)
+                newResulte[0].forEach(element => {
+
+                    morebtn = "/mlm/products/detail/" + element.id + "/" + element.slug + "/";
+                    $('#product-container-id').append(`
+                    <div class="col-12 col-md-6 col-lg-4">
+                                <div class="w-100 mb-3">
+                                    <a href="${morebtn}" id="token-hori" class="product-item-image-container">
+                                        <img class="product-item-image rounded" src="${element.image}" alt="">
+                                    </a>
+
+                                </div>
+                                <div class="details details-main h-auto">
+
+                                    <a href="${morebtn}">
+                                        <h2 class="text-nowrap overflow-hidden product-text">${element.title}</h2>
+                                    </a>
+                                </div>
+                            </div>
+                        `)
+
+                    })
+                if (response.previous == null && response.next == null) {
+                    $('#page1').html(``);
+                    $('#page2').html('1');
+                    $('#page1').html(``);
+                }
+                if (response.previous == null && response.next !== null) {
+                    nextUrl = response.next;
+                    $('#page1').html(``);
+                    $('#page2').html('1');
+                    $('#page3').html('2');
+                }
+                if (response.previous !== null && response.next !== null) {
+                    nextUrl = response.next;
+                    backUrl = response.previous;
+                    let nUrls = new URL(response.next)
+                    let nUrlNums = nUrls.searchParams.get("page");
+                    let currentpages = Number(nUrlNums) - 1;
+                    let prevPageNums = Number(nUrlNums) - 2;
+                    $('#page1').html(`${prevPageNums}`);
+                    $('#page2').html(`${currentpages}`);
+                    $('#page3').html(`${nUrlNums}`);
+                }
+                
+           },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+    
+    $('#go-next-card').on('click', function() {
+        if ($('#page3').html() !== '') {
+            $('#product-container-id').html('')
+            loadDataN(nextUrl)
+        }
+    })
+    $('#go-back-card').on('click', function() {
+        if ($('#page1').html() !== '') {
+            $('#product-container-id').html('')
+            loadDataN(backUrl)
+        }
+    })
+loadData()
+</script>
+
+{% endblock %}
